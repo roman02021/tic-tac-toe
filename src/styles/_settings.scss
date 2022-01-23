@@ -1,0 +1,73 @@
+$primary-cross: #31c3bd;
+$primary-cross-hover: #65e9e4;
+$primary-cross-border: #118c87;
+$primary-circle: #f2b137;
+$primary-circle-hover: #ffc860;
+$primary-circle-border: #cc8b13;
+$secondary: #a8bfc9;
+$secondary-hover: #dbe8ed;
+$border-color: #1a2a33;
+$background-color: #1f3641;
+$border-radius: 15px;
+
+.heading-l {
+    font-size: 2.5rem;
+    letter-spacing: 2.5px;
+}
+.heading-m {
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+}
+.heading-s {
+    font-size: 1.25rem;
+    letter-spacing: 1.25px;
+}
+.heading-xs {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: $secondary;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: Outfit, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+button {
+    font-family: Outfit, sans-serif;
+}
+#root {
+    background-color: $border-color;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+@font-face {
+    font-family: Outfit;
+    src: local('Outfit-Medium'),
+        url('../fonts/Outfit-Medium.woff2') format('woff2'),
+        url('../fonts/Outfit-Medium.woff') format('woff');
+    font-weight: medium;
+}
+
+@font-face {
+    font-family: Outfit;
+    src: local('Outfit-Bold'), url('../fonts/Outfit-Bold.woff2') format('woff2'),
+        url('../fonts/Outfit-Bold.woff') format('woff');
+    font-weight: bold;
+}
+
+.heading-l {
+}

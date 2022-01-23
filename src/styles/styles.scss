@@ -1,0 +1,111 @@
+@use 'settings' as *;
+
+.logo {
+}
+.menu {
+    width: 28.75rem;
+    height: 29.375rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.button {
+    border: none;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: $border-radius;
+    padding: 1rem 0;
+    transition: background-color 200ms ease-out;
+    &--full-width {
+        width: 100%;
+    }
+    &--cross {
+        background-color: $primary-cross;
+        border-bottom: 0.5rem solid $primary-cross-border;
+        &:hover {
+            background-color: $primary-cross-hover;
+        }
+    }
+    &--circle {
+        background-color: $primary-circle;
+        border-bottom: 0.5rem solid $primary-circle-border;
+        &:hover {
+            background-color: $primary-circle-hover;
+        }
+    }
+}
+.choose-mark {
+    border-radius: $border-radius;
+    background-color: $background-color;
+    padding: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 2.5rem;
+    border-bottom: 0.5rem solid #10212a;
+    &__title {
+        text-align: center;
+        padding-bottom: 1.5rem;
+    }
+    &__subtitle {
+        text-align: center;
+        padding-top: 1.5rem;
+        color: rgba($color: $secondary, $alpha: 0.5);
+    }
+}
+.switch {
+    background-color: $border-color;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+
+    @mixin container {
+        cursor: pointer;
+        width: 50%;
+        border-radius: $border-radius;
+        background-color: transparent;
+        border: none;
+        padding: 0.75rem;
+    }
+    @mixin icon {
+        // width: 2rem;
+        // height: 2rem;
+    }
+    &__circle-container {
+        @include container;
+        background-color: $secondary;
+    }
+    &__circle {
+        @include icon;
+        path {
+            fill: $border-color;
+            height: 30px;
+        }
+    }
+    &__cross-container {
+        @include container;
+    }
+    &__cross {
+        @include icon;
+        path {
+            fill: $secondary;
+        }
+    }
+    &--cross-active {
+        .switch__cross-container {
+            background-color: $secondary;
+        }
+        .switch__cross {
+            path {
+                fill: $border-color;
+            }
+        }
+        .switch__circle-container {
+            background-color: $border-color;
+        }
+        .switch__circle {
+            path {
+                fill: $secondary;
+            }
+        }
+    }
+}
