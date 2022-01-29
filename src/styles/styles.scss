@@ -1,47 +1,14 @@
 @use 'settings' as *;
 
-.logo {
-}
-.menu {
-    width: 28.75rem;
-    height: 29.375rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.button {
-    border: none;
-    margin-bottom: 1.25rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: $border-radius;
-    padding: 1rem 0;
-    transition: background-color 200ms ease-out;
-    &--full-width {
-        width: 100%;
-    }
-    &--cross {
-        background-color: $primary-cross;
-        border-bottom: 0.5rem solid $primary-cross-border;
-        &:hover {
-            background-color: $primary-cross-hover;
-        }
-    }
-    &--circle {
-        background-color: $primary-circle;
-        border-bottom: 0.5rem solid $primary-circle-border;
-        &:hover {
-            background-color: $primary-circle-hover;
-        }
-    }
-}
+
+
 .choose-mark {
     border-radius: $border-radius;
     background-color: $background-color;
     padding: 1.5rem;
     width: 100%;
     box-sizing: border-box;
-    margin-bottom: 2.5rem;
+    margin: 2.5rem 0;
     border-bottom: 0.5rem solid #10212a;
     &__title {
         text-align: center;
@@ -65,6 +32,7 @@
         background-color: transparent;
         border: none;
         padding: 0.75rem;
+        // transition: background-color 200ms ease-out;
     }
     @mixin icon {
         // width: 2rem;
@@ -83,6 +51,9 @@
     }
     &__cross-container {
         @include container;
+        &:hover {
+            background-color: rgba($color: $secondary, $alpha: 0.05);
+        }
     }
     &__cross {
         @include icon;
@@ -101,11 +72,59 @@
         }
         .switch__circle-container {
             background-color: $border-color;
+            &:hover {
+                background-color: rgba($color: $secondary, $alpha: 0.05);
+            }
         }
         .switch__circle {
             path {
                 fill: $secondary;
             }
         }
+    }
+}
+.tile {
+    height: 8.75rem;
+    width: 8.75rem;
+    box-sizing: border-box;
+    background-color: $background-color;
+    border-radius: $border-radius;
+    border-bottom: 0.5rem solid #10212a;
+}
+.board {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    grid-template-rows: repeat($rows, 1fr);
+    gap: 1.25rem;
+}
+.top-controls {
+    display: grid;
+    align-items: center;
+    justify-content: space-between;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+    .button {
+        justify-self: flex-end;
+    }
+    .logo {
+        align-self: center;
+        margin-bottom: 1.25rem;
+    }
+}
+.slim-tile {
+    box-sizing: border-box;
+    background-color: $background-color;
+    border-radius: $border-radius;
+    border-bottom: 0.25rem solid #10212a;
+    width: 8.75rem;
+    height: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $secondary;
+    text-transform: uppercase;
+    &__text {
+        margin-left: 0.8125rem;
     }
 }

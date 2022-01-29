@@ -1,7 +1,8 @@
 import { React, useState } from 'react';
-import { ReactComponent as Cross } from '../assets/icon-x.svg';
-import { ReactComponent as Circle } from '../assets/icon-o.svg';
+import Circle from '../components/icons/Circle';
+import Cross from '../components/icons/Cross';
 import '../styles/styles.scss';
+import theme from '../styles/theme';
 
 export default function Switch() {
     const [isCross, setIsCross] = useState(true);
@@ -12,13 +13,29 @@ export default function Switch() {
                 className={`switch__cross-container`}
                 onClick={() => setIsCross(true)}
             >
-                <Cross className={`switch__cross`} />
+                <Cross
+                    width={32}
+                    height={32}
+                    color={
+                        isCross
+                            ? theme.colors.borderColor
+                            : theme.colors.secondary
+                    }
+                />
             </button>
             <button
                 className={`switch__circle-container`}
                 onClick={() => setIsCross(false)}
             >
-                <Circle className={`switch__circle`} />
+                <Circle
+                    width={32}
+                    height={32}
+                    color={
+                        !isCross
+                            ? theme.colors.borderColor
+                            : theme.colors.secondary
+                    }
+                />
             </button>
         </div>
     );
