@@ -17,6 +17,20 @@ const theme = {
         bottomWidthMedium: '0.5rem',
         bottomWidthSmall: '0.25rem',
     },
+    fontSize: {
+        l: '2.5rem',
+        m: '1.5rem',
+        s: '1.25rem',
+        xs: '1rem',
+        body: '0.875rem'
+    },
+    kerning: {
+        l: '2.5px',
+        m: '1.5px',
+        s: '1.25px',
+        xs: '1px',
+        body: '0.8px'
+    },
     dimensions: {
         rows: 3,
         columns: 3,

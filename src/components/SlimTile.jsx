@@ -1,5 +1,8 @@
 import React from 'react';
 
+
+
+
 const SlimTile = (props) => {
     return (
         <div className="slim-tile">

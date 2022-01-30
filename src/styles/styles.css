@@ -86,15 +86,6 @@
   fill: #a8bfc9;
 }
 
-.tile {
-  height: 8.75rem;
-  width: 8.75rem;
-  box-sizing: border-box;
-  background-color: #1f3641;
-  border-radius: 15px;
-  border-bottom: 0.5rem solid #10212a;
-}
-
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

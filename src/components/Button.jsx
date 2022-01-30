@@ -13,7 +13,6 @@ export default function Button(props) {
     const navigateOnClick = (route) => {
         navigate(route);
     };
-    console.log('aa', props.icon && !props.children);
 
     return (
         <StyledButton

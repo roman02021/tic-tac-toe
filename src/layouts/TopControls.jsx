@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Logo from '../components/icons/Logo';
 import Restart from '../components/icons/Restart';
 import Cross from '../components/icons/Cross';
+import Circle from '../components/icons/Circle';
 import Button from '../components/Button';
 import SlimTile from '../components/SlimTile';
 import theme from '../styles/theme';
 import styled from 'styled-components';
 import GridItem from './GridItem';
+import PlayerContext from '../contexts/PlayerContext';
 
 const StyledTopControls = styled.div`
     display: grid;
@@ -19,6 +21,9 @@ const StyledTopControls = styled.div`
 `
 
 const TopControls = () => {
+
+    const {player, setPlayer} = useContext(PlayerContext);
+    console.log(player.yourTurn)
     return (
         <StyledTopControls>
             <GridItem position='left'>
@@ -27,11 +32,16 @@ const TopControls = () => {
             <GridItem position='center'>
                 <SlimTile
                     icon={
+                        player.yourTurn && player.symbol === 'cross' ? 
                         <Cross
                             width={20}
                             height={20}
                             color={theme.colors.secondary}
-                        />
+                        /> : <Circle
+                        width={20}
+                        height={20}
+                        color={theme.colors.primaryCircle}
+                    />
                     }
                 >
                     Turn

@@ -6,7 +6,6 @@ import '../styles/styles.css';
 
 export default function Game(props) {
     const { children } = props;
-    console.log(children);
     return (
         <section className="game">
             <TopControls></TopControls>

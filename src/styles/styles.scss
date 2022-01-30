@@ -84,12 +84,7 @@
     }
 }
 .tile {
-    height: 8.75rem;
-    width: 8.75rem;
-    box-sizing: border-box;
-    background-color: $background-color;
-    border-radius: $border-radius;
-    border-bottom: 0.5rem solid #10212a;
+
 }
 .board {
     display: grid;
