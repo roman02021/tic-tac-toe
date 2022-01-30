@@ -11,7 +11,7 @@ export default function Game(props) {
 
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
-    console.log('POSITION: ', game.board);
+    // console.log('POSITION: ', game.board);
     
 
 

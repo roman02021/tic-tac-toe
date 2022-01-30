@@ -13,7 +13,7 @@ export default function Button(props) {
     const navigateOnClick = (route) => {
         navigate(route);
     };
-
+    
     return (
         <StyledButton
             onClick={() => props.route && navigateOnClick(props.route)}
@@ -35,14 +35,17 @@ const StyledButton = styled.button`
     
     width: ${(props) => (props.fullWidth ? '100%' : undefined)};
 
-    border-width: ${(props) => (props.borderWidth === 'small' ? theme.borders.bottomWidthSmall : theme.borders.bottomWidthMedium)};
+    
 
     ${(props) => handleColorType(props.color)};
-
+    
     ${(props) => props.square ? `
         width: 3.25rem;
         height: 3.25rem;
     ` : undefined};
+
+    border-width: ${(props) => (props.borderWidth === 'small' ? theme.borders.bottomWidthSmall : theme.borders.bottomWidthMedium)};
+    
     &:not(:last-child) {
         margin-bottom: 1.25rem;
     }

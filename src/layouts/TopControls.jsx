@@ -25,7 +25,7 @@ const TopControls = () => {
 
     const player = usePlayerStore((state) => state);
 
-    console.log(player.symbol === constants.CROSS)
+    // console.log(player.symbol === constants.CROSS)
     return (
         <StyledTopControls>
             <GridItem position='left'>

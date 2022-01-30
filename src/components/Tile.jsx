@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import theme from '../styles/theme';
 import Circle from '../components/icons/Circle';
@@ -27,6 +27,8 @@ export default function Tile(props) {
     // console.log(props.symbol);
     const [isChecked, setIsChecked] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const [isEnemy, setIsEnemy] = useState(false);
+
     const game = useGameStore((state) => state);
 
     const handleMouseEnter = (e) => {
@@ -41,11 +43,19 @@ export default function Tile(props) {
     }
     const handleClick = () => {
         if(!isChecked && props.player.isYourTurn) {
-            props.player.setIsYourTurn(false);
             game.setTile(props.player.symbol, props.row, props.column);
             setIsChecked(true);
+            props.player.setIsYourTurn(false);
         }
     }
+    useEffect(()=>{
+        // console.log(JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column]));
+        if((!props.player.isYourTurn && JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column])) && (game.lastPlayerSymbol !== props.player.symbol)){
+            setIsChecked(true);
+            setIsEnemy(true);
+            props.player.setIsYourTurn(true);
+        }
+    }, [game.board[props.row][props.column]])
     return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} >
 
 
@@ -53,8 +63,8 @@ export default function Tile(props) {
         {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
 
         
-        {isChecked && props.player.symbol === constants.CROSS ?  <Cross height={64} width={64} color={theme.colors.primaryCross}/> : ''}
-        {isChecked && props.player.symbol === constants.CIRCLE ?  <Circle height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+        {isChecked && props.player.symbol === constants.CROSS   ? !isEnemy ? <Cross height={64} width={64} color={theme.colors.primaryCross}/> : <Circle height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+        {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={64} width={64} color={theme.colors.primaryCircle}/> : <Cross height={64} width={64} color={theme.colors.primaryCross}/> : ''}
         
         
         </StyledTile>;
