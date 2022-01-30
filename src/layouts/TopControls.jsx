@@ -8,13 +8,14 @@ import SlimTile from '../components/SlimTile';
 import theme from '../styles/theme';
 import styled from 'styled-components';
 import GridItem from './GridItem';
-import PlayerContext from '../contexts/PlayerContext';
+import {usePlayerStore} from '../store';
+import constants from '../constants';
 
 const StyledTopControls = styled.div`
     display: grid;
     align-items: center;
     justify-content: space-between;
-    grid-template-columns: repeat(${theme.dimensions.rows}, 1fr);
+    grid-template-columns: repeat(${constants.ROWS}, 1fr);
     gap: 1.25rem;
     margin-bottom: 1.25rem;
     
@@ -22,8 +23,9 @@ const StyledTopControls = styled.div`
 
 const TopControls = () => {
 
-    const {player, setPlayer} = useContext(PlayerContext);
-    console.log(player.yourTurn)
+    const player = usePlayerStore((state) => state);
+
+    console.log(player.symbol === constants.CROSS)
     return (
         <StyledTopControls>
             <GridItem position='left'>
@@ -32,7 +34,7 @@ const TopControls = () => {
             <GridItem position='center'>
                 <SlimTile
                     icon={
-                        player.yourTurn && player.symbol === 'cross' ? 
+                        (player.isYourTurn && player.symbol === constants.CROSS) || (!player.isYourTurn && player.symbol === constants.CIRCLE) ? 
                         <Cross
                             width={20}
                             height={20}

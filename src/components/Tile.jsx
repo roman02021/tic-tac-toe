@@ -5,6 +5,8 @@ import Circle from '../components/icons/Circle';
 import Cross from '../components/icons/Cross';
 import CircleOutline from '../components/icons/CircleOutline';
 import CrossOutline from '../components/icons/CrossOutline';
+import constants from '../constants';
+import {useGameStore} from '../store';
 
 const StyledTile = styled.div`
     height: 8.75rem;
@@ -16,7 +18,7 @@ const StyledTile = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: ${(props) => props.isChecked ?  'default' : 'pointer' };
+    cursor: ${(props) => props.isChecked || !props.isYourTurn ?  'default' : 'pointer' };
     
 `
 
@@ -25,28 +27,34 @@ export default function Tile(props) {
     // console.log(props.symbol);
     const [isChecked, setIsChecked] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const game = useGameStore((state) => state);
 
     const handleMouseEnter = (e) => {
-        setIsHovering(true);
+        if(props.player.isYourTurn){
+            setIsHovering(true);
+        }
     }
     const handleMouseLeave = () => {
-        setIsHovering(false);
+        if(props.player.isYourTurn){
+            setIsHovering(false);
+        }
     }
     const handleClick = () => {
-        if(!isChecked) {
-            props.setPlayer({...props.player, yourTurn: !props.player.yourTurn})
+        if(!isChecked && props.player.isYourTurn) {
+            props.player.setIsYourTurn(false);
+            game.setTile(props.player.symbol, props.row, props.column);
+            setIsChecked(true);
         }
-        setIsChecked(true);
     }
-    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} >
+    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} >
 
 
-        {isHovering && props.player.symbol === 'cross' && !isChecked ?  <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
-        {isHovering && props.player.symbol === 'circle' && !isChecked ?  <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+        {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
+        {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
 
         
-        {isChecked && props.player.symbol === 'cross' ?  <Cross height={64} width={64} color={theme.colors.primaryCross}/> : ''}
-        {isChecked && props.player.symbol === 'circle' ?  <Circle height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+        {isChecked && props.player.symbol === constants.CROSS ?  <Cross height={64} width={64} color={theme.colors.primaryCross}/> : ''}
+        {isChecked && props.player.symbol === constants.CIRCLE ?  <Circle height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
         
         
         </StyledTile>;

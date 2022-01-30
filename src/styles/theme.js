@@ -31,9 +31,5 @@ const theme = {
         xs: '1px',
         body: '0.8px'
     },
-    dimensions: {
-        rows: 3,
-        columns: 3,
-    },
 };
 export default theme;

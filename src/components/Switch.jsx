@@ -4,23 +4,27 @@ import Circle from '../components/icons/Circle';
 import Cross from '../components/icons/Cross';
 import '../styles/styles.scss';
 import theme from '../styles/theme';
-import PlayerContext from '../contexts/PlayerContext';
+import {usePlayerStore} from '../store';
+import constants from '../constants';
 
 export default function Switch() {
-    const {player, setPlayer} = useContext(PlayerContext);
+    const player = usePlayerStore((state) => state);
     const [isCross, setIsCross] = useState(true);
-    
+    console.log(player.symbol, constants.CROSS);
     return (
-        <div className={`switch ${player.symbol === 'cross' ? 'switch--cross-active' : ''}`}>
+        <div className={`switch ${player.symbol === constants.CROSS ? 'switch--cross-active' : ''}`}>
             <button
                 className={`switch__cross-container`}
-                onClick={() => setPlayer({...player, symbol: 'cross'})}
+                onClick={() => {
+                    player.setSymbol(constants.CROSS);
+                    player.setIsYourTurn(true);
+                }}
             >
                 <Cross
                     width={32}
                     height={32}
                     color={
-                        player.symbol === 'cross'
+                        player.symbol === constants.CROSS
                             ? theme.colors.borderColor
                             : theme.colors.secondary
                     }
@@ -28,13 +32,16 @@ export default function Switch() {
             </button>
             <button
                 className={`switch__circle-container`}
-                onClick={() => setPlayer({...player, symbol: 'circle'})}
+                onClick={() => {
+                    player.setSymbol(constants.CIRCLE)
+                    player.setIsYourTurn(false);
+                }}
             >
                 <Circle
                     width={32}
                     height={32}
                     color={
-                        player.symbol === 'circle'
+                        player.symbol === constants.CIRCLE
                             ? theme.colors.borderColor
                             : theme.colors.secondary
                     }
