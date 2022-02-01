@@ -50,7 +50,9 @@ export default function Tile(props) {
     }
     useEffect(()=>{
         // console.log(JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column]));
-        if((!props.player.isYourTurn && JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column])) && (game.lastPlayerSymbol !== props.player.symbol)){
+        const isThisTile = !props.player.isYourTurn && JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column]);
+
+        if(isThisTile && game.lastPlayerSymbol !== props.player.symbol){
             setIsChecked(true);
             setIsEnemy(true);
             props.player.setIsYourTurn(true);

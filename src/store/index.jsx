@@ -25,10 +25,13 @@ export const useGameStore = create((set) => ({
     board: Array.from(Array(constants.ROWS).fill(constants.EMPTY), () => Array(constants.COLUMNS).fill(0)),
     lastTile: [0,0],
     lastPlayerSymbol: constants.CIRCLE,
+    isGameOver: false,
     setTile: (symbol, row, column) => set((state) => {
         state.board[row][column] = symbol;
         state.lastPlayerSymbol = symbol;
         state.lastTile = [row, column];
     }
-    )
+    ),
+    setGameOver: (isGameOver) => set((state) => set({isGameOver}))
+    
 }))

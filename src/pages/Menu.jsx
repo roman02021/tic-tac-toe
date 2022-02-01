@@ -21,10 +21,10 @@ export default function Menu(props) {
                 <Logo className="logo__logo" />
             </div>
             <ChooseMark />
-            <Button fullWidth cross={true} route="/game" color="yellow">
+            <Button fullWidth cross={true} route="/game" color="yellow" vertical>
                 New game (vs CPU)
             </Button>
-            <Button fullWidth cross={false} route="/multiplayer" color="blue">
+            <Button fullWidth cross={false} route="/multiplayer" color="blue" vertical>
                 New game (vs Player)
             </Button>
         </StyledMenu>

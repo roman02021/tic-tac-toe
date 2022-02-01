@@ -31,7 +31,7 @@ const StyledButton = styled.button`
     text-transform: uppercase;
     cursor: pointer;
     border-radius: ${theme.borders.borderRadius};
-    padding: 1rem 0;
+    padding: 1rem;
     
     width: ${(props) => (props.fullWidth ? '100%' : undefined)};
 
@@ -47,7 +47,7 @@ const StyledButton = styled.button`
     border-width: ${(props) => (props.borderWidth === 'small' ? theme.borders.bottomWidthSmall : theme.borders.bottomWidthMedium)};
     
     &:not(:last-child) {
-        margin-bottom: 1.25rem;
+        ${(props) => props.vertical ? 'margin-bottom: 1.25rem' : 'margin-right: 1rem'};
     }
 `;
 
