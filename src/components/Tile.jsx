@@ -28,7 +28,7 @@ export default function Tile(props) {
     const [isChecked, setIsChecked] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [isEnemy, setIsEnemy] = useState(false);
-
+    
     const game = useGameStore((state) => state);
     const setIsYourTurn = usePlayerStore((state) => state.setIsYourTurn);
 
@@ -51,6 +51,19 @@ export default function Tile(props) {
     }
     useEffect(()=>{
         // console.log(JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column]));
+        if(game.board[props.row][props.column] === constants.EMPTY){
+            setIsChecked(false);
+            setIsHovering(false);
+            setIsEnemy(false);
+        }
+        if(game.board[props.row][props.column] === props.player.symbol){
+            setIsChecked(true);
+        }
+        
+        else if(game.board[props.row][props.column] === (props.player.symbol === constants.CROSS ? constants.CIRCLE : constants.CROSS)){
+            setIsChecked(true);
+            setIsEnemy(true);
+        }
         const isThisTile = !props.player.isYourTurn && JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column]);
 
         if(isThisTile && game.lastPlayerSymbol !== props.player.symbol){

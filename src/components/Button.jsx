@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import theme from '../styles/theme';
 
 import '../styles/styles.css';
@@ -8,25 +8,23 @@ import '../styles/styles.css';
 
 
 export default function Button(props) {
-    const navigate = useNavigate();
 
-    // const navigateOnClick = (route) => {
-    //     navigate(route);
-    // };
-    // console.log(props);
 
     
     return (
-        <StyledLinkBtn to={props.route || ""} $fullWidth $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
-      
-                <span className="heading-s">{props.children}</span>
-                {props.icon && <span className="button__icon">{props.icon}</span>}
-        </StyledLinkBtn>
+        props.route ? 
+        <StyledLinkBtn to={props.route} $fullWidth $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
+            <span className="heading-s">{props.children}</span>
+            {props.icon && <span className="button__icon">{props.icon}</span>}
+        </StyledLinkBtn> : 
+        <StyledBtn to={props.route || ""} $fullWidth $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
+            <span className="heading-s">{props.children}</span>
+            {props.icon && <span className="button__icon">{props.icon}</span>}
+        </StyledBtn>
     );
 }
-
-const StyledLinkBtn = styled(Link)`
-    border: none;
+const Btn = css`
+     border: none;
     text-transform: uppercase;
     cursor: pointer;
     border-radius: ${theme.borders.borderRadius};
@@ -55,8 +53,12 @@ const StyledLinkBtn = styled(Link)`
     &:not(:last-child) {
         ${(props) => props.$vertical ? 'margin-bottom: 1.25rem' : 'margin-right: 1rem'};
     }
-
-    
+`
+const StyledLinkBtn = styled(Link)`
+   ${Btn}
+`
+const StyledBtn = styled.button`
+   ${Btn}
 `
 
 const handleColorType = (color) => {

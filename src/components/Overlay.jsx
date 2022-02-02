@@ -21,7 +21,7 @@ const Overlay = () => {
         
     }, [game.isGameOver])
     return (
-        game.isGameOver && 
+        (game.isGameOver || game.showRestartModal) && 
         <StyledOverlay/>
     );
 };

@@ -38,7 +38,7 @@ const StyledMessage = styled.div`
     margin-bottom: ${(props) => props.$isTie ? '2rem' : '1.5rem'};
 `
 const MainMessage = styled.div`
-    margin-left: ${(props) => props.$isTie ? '' : '1.5rem'} ;
+    /* margin-left: ${(props) => props.$isTie ? '' : '1.5rem'} ; */
     font-weight: bold;
 `
 const ButtonContainer = styled.div`
@@ -66,29 +66,22 @@ const EndRoundModal = () => {
         console.log("TIE ?:", game.isTie);
     }, [game.isGameOver])
     return (
-        game.isGameOver &&
-        <StyledModal $isTie={game.isTie}>
-            {!game.isTie && <StyledLead> {game.winner === player.symbol ? "YOU WON" : "YOU LOST"} </StyledLead>}
-            
-            <StyledMessage $isTie={game.isTie}>
-            {!game.isTie && (game.winner === constants.CROSS ? <Cross height={64} width={64} color={theme.colors.primaryCross}/> : <Circle height={64} width={64} color={theme.colors.primaryCircle}/>)}
-                
-                <MainMessage $isTie={game.isTie}>{!game.isTie ? "TAKES THE ROUND" : "ROUND TIED"}</MainMessage>
-                
+        game.showRestartModal && <StyledModal> 
+            <StyledMessage> 
+                <MainMessage>RESTART GAME?</MainMessage>
             </StyledMessage>
             <ButtonContainer>
-                <Button color="silver" route="/"  onClick={()=>{
-                    game.setGameOver(false);
+                <Button color="silver" onClick={()=>{
+                    game.setShowRestartModal(false);
+                    }}>NO, CANCEL</Button>
+                <Button color="yellow" onClick={()=>{
                     game.setIsTie(false);
                     game.resetBoard();
-                    }}>QUIT</Button>
-                <Button color="yellow" route="/game" onClick={()=>{
-                    game.setGameOver(false);
-                    game.setIsTie(false);
-                    game.resetBoard();
-                }} >NEXT ROUND</Button>
+                    game.setShowRestartModal(false);
+                }} >YES, RESTART</Button>
             </ButtonContainer>
         </StyledModal>
+        
     
     
     );

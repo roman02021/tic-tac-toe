@@ -4,7 +4,7 @@ import EndRoundModal from './layouts/EndRoundModal';
 import GlobalStyle from './styles/globalStyles';
 import FontStyle from './styles/fontStyles';
 import Overlay from './components/Overlay';
-
+import RestartModal from './layouts/RestartModal';
 
 
 
@@ -15,6 +15,7 @@ function App() {
             <FontStyle />
             <GlobalStyle />
             <EndRoundModal/>
+            <RestartModal/>
             <Overlay/>
             <Outlet />
         </>

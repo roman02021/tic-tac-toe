@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Logo from '../components/icons/Logo';
 import Restart from '../components/icons/Restart';
 import Cross from '../components/icons/Cross';
@@ -8,8 +8,11 @@ import SlimTile from '../components/SlimTile';
 import theme from '../styles/theme';
 import styled from 'styled-components';
 import GridItem from './GridItem';
-import {usePlayerStore} from '../store';
+import {usePlayerStore, useGameStore} from '../store';
 import constants from '../constants';
+
+
+
 
 const StyledTopControls = styled.div`
     display: grid;
@@ -24,6 +27,7 @@ const StyledTopControls = styled.div`
 const TopControls = () => {
 
     const player = usePlayerStore((state) => state);
+    const setShowRestartModal = useGameStore((state) => state.setShowRestartModal);
 
     // console.log(player.symbol === constants.CROSS)
     return (
@@ -50,7 +54,7 @@ const TopControls = () => {
                 </SlimTile>
             </GridItem>
             <GridItem position='right'>
-                <Button icon={<Restart />} color='silver' square borderWidth='small' />
+                <Button icon={<Restart />} color='silver' square borderWidth='small' onClick={()=> setShowRestartModal(true)} />
             </GridItem>
         </StyledTopControls>
     );
