@@ -6,7 +6,7 @@ import Cross from '../components/icons/Cross';
 import CircleOutline from '../components/icons/CircleOutline';
 import CrossOutline from '../components/icons/CrossOutline';
 import constants from '../constants';
-import {useGameStore} from '../store';
+import {useGameStore, usePlayerStore} from '../store';
 
 const StyledTile = styled.div`
     height: 8.75rem;
@@ -30,6 +30,7 @@ export default function Tile(props) {
     const [isEnemy, setIsEnemy] = useState(false);
 
     const game = useGameStore((state) => state);
+    const setIsYourTurn = usePlayerStore((state) => state.setIsYourTurn);
 
     const handleMouseEnter = (e) => {
         if(props.player.isYourTurn){
@@ -55,7 +56,7 @@ export default function Tile(props) {
         if(isThisTile && game.lastPlayerSymbol !== props.player.symbol){
             setIsChecked(true);
             setIsEnemy(true);
-            props.player.setIsYourTurn(true);
+            setIsYourTurn(true);
         }
     }, [game.board[props.row][props.column]])
     return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} >

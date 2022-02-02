@@ -2,10 +2,11 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import Cross from '../components/icons/Cross';
-
+import Circle from '../components/icons/Circle';
 import theme from '../styles/theme';
 
-import {useGameStore} from '../store';
+import {useGameStore, usePlayerStore} from '../store';
+import constants from '../constants';
 
 const StyledModal = styled.div`
     background-color: ${theme.colors.backgroundColor};
@@ -41,6 +42,7 @@ const MainMessage = styled.div`
 `
 const ButtonContainer = styled.div`
     font-weight: bold;
+    display: flex;
     &:not(:last-child){
         margin-right: 1rem;
     }
@@ -49,23 +51,29 @@ const ButtonContainer = styled.div`
 
 
 
-const Modal = () => {
+const EndRoundModal = () => {
     const game = useGameStore((state) => state);
-    
+    const player = usePlayerStore((state) => state);
+    // console.log('aaa', player.symbol,'bbbb', game.lastPlayerSymbol, game.winner);
+
     useEffect(()=>{
         
     }, [game.isGameOver])
     return (
         game.isGameOver && 
         <StyledModal>
-            <StyledLead>YOU WON</StyledLead>
+            <StyledLead> {game.winner === player.symbol ? "YOU WON" : "YOU LOST"} </StyledLead>
             <StyledMessage>
-                <Cross height={64} width={64} color={theme.colors.primaryCross}/>
+            {game.winner === constants.CROSS ? <Cross height={64} width={64} color={theme.colors.primaryCross}/> : <Circle height={64} width={64} color={theme.colors.primaryCircle}/>}
+                
                 <MainMessage>TAKES THE ROUND</MainMessage>
                 
             </StyledMessage>
             <ButtonContainer>
-                <Button color="silver" route="/">QUIT</Button>
+                <Button color="silver" route="/"  onClick={()=>{
+                    game.setGameOver(false);
+                    game.resetBoard();
+                    }}>QUIT</Button>
                 <Button color="yellow" route="/game">NEXT ROUND</Button>
             </ButtonContainer>
         </StyledModal>
@@ -74,4 +82,4 @@ const Modal = () => {
     );
 };
 
-export default Modal;
+export default EndRoundModal;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../styles/theme';
 
@@ -10,46 +10,54 @@ import '../styles/styles.css';
 export default function Button(props) {
     const navigate = useNavigate();
 
-    const navigateOnClick = (route) => {
-        navigate(route);
-    };
+    // const navigateOnClick = (route) => {
+    //     navigate(route);
+    // };
+    // console.log(props);
+
     
     return (
-        <StyledButton
-            onClick={() => props.route && navigateOnClick(props.route)}
-            {...props}
-        >
-            <span className="heading-s">{props.children}</span>
-            {props.icon && <span className="button__icon">{props.icon}</span>}
-        </StyledButton>
+        <StyledLinkBtn to={props.route || ""} $fullWidth $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
+      
+                <span className="heading-s">{props.children}</span>
+                {props.icon && <span className="button__icon">{props.icon}</span>}
+        </StyledLinkBtn>
     );
 }
 
-
-const StyledButton = styled.button`
+const StyledLinkBtn = styled(Link)`
     border: none;
     text-transform: uppercase;
     cursor: pointer;
     border-radius: ${theme.borders.borderRadius};
     padding: 1rem;
-    
-    width: ${(props) => (props.fullWidth ? '100%' : undefined)};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: fit-content;
+    box-sizing: border-box;
+    color: ${theme.colors.borderColor};
+    text-decoration: none;
+    width: ${(props) => props.$fullWidth ? '100%' : undefined};
 
     
 
-    ${(props) => handleColorType(props.color)};
+    ${(props) => handleColorType(props.$color)};
     
-    ${(props) => props.square ? `
+    ${(props) => props.$square ? `
         width: 3.25rem;
         height: 3.25rem;
     ` : undefined};
 
-    border-width: ${(props) => (props.borderWidth === 'small' ? theme.borders.bottomWidthSmall : theme.borders.bottomWidthMedium)};
+    border-width: ${(props) => (props.$borderWidth === 'small' ? theme.borders.bottomWidthSmall : theme.borders.bottomWidthMedium)};
     
     &:not(:last-child) {
-        ${(props) => props.vertical ? 'margin-bottom: 1.25rem' : 'margin-right: 1rem'};
+        ${(props) => props.$vertical ? 'margin-bottom: 1.25rem' : 'margin-right: 1rem'};
     }
-`;
+
+    
+`
 
 const handleColorType = (color) => {
     switch (color) {
