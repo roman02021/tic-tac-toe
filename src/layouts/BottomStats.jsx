@@ -18,11 +18,11 @@ const StyledBottomStats = styled.div`
 const BottomStats = () => {
 
     const player = usePlayerStore((state) => state);
-
+    console.log(player.symbol, constants.CROSS, player.symbol === constants.CROSS);
     return <StyledBottomStats>
-        <Score counter={player.wins} text='X (YOU)' color='blue'/>
+        <Score counter={player.wins} text={`${player.symbol === constants.CROSS ? 'X' : 'O'} (YOU)`} color={`${player.symbol === constants.CROSS ? 'blue' : 'yellow'}`}/>
         <Score counter={player.ties} text='TIES' color='silver'/>
-        <Score counter={player.looses} text='O (CPU)' color='yellow'/>
+        <Score counter={player.looses} text={`${player.symbol === constants.CROSS ? 'O' : 'X'} (CPU)`} color={`${player.symbol === constants.CROSS ? 'yellow' : 'blue'}`}/>
     </StyledBottomStats>;
 };
 

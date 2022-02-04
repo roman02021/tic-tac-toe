@@ -26,11 +26,12 @@ const StyledTile = styled.div`
 export default function Tile(props) {
     // console.log(props.symbol);
     const [isChecked, setIsChecked] = useState(false);
+    const [isHighlighted, setIsHighlighted] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [isEnemy, setIsEnemy] = useState(false);
     
     const game = useGameStore((state) => state);
-    const setIsYourTurn = usePlayerStore((state) => state.setIsYourTurn);
+    const player = usePlayerStore((state) => state);
 
     const handleMouseEnter = (e) => {
         if(props.player.isYourTurn){
@@ -46,33 +47,52 @@ export default function Tile(props) {
         if(!isChecked && props.player.isYourTurn) {
             game.setTile(props.player.symbol, props.row, props.column);
             setIsChecked(true);
-            props.player.setIsYourTurn(false);
+            player.setIsYourTurn(false);
+            player.setIsEnemyTurn(true);
+            
         }
     }
     useEffect(()=>{
-        // console.log(JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column]));
+        console.log('BOARD CHANGED');
+        console.log(game.board, player.isEnemyTurn,game.board[props.row][props.column], player.enemySymbol, player.isEnemyTurn && game.board[props.row][props.column] === player.enemySymbol);
         if(game.board[props.row][props.column] === constants.EMPTY){
             setIsChecked(false);
-            setIsHovering(false);
             setIsEnemy(false);
+            setIsHovering(false);
         }
-        if(game.board[props.row][props.column] === props.player.symbol){
+        else if(player.isYourTurn && game.board[props.row][props.column] === player.symbol){
             setIsChecked(true);
+            player.setIsEnemyTurn(true);
+            player.setIsYourTurn(false);
         }
-        
-        else if(game.board[props.row][props.column] === (props.player.symbol === constants.CROSS ? constants.CIRCLE : constants.CROSS)){
-            setIsChecked(true);
+        else if(player.isEnemyTurn && game.board[props.row][props.column] === player.enemySymbol){
+            console.log('aa');
             setIsEnemy(true);
+            setIsChecked(true);
+            player.setIsYourTurn(true);
+            player.setIsEnemyTurn(false);
         }
-        const isThisTile = !props.player.isYourTurn && JSON.stringify(game.lastTile) === JSON.stringify([props.row, props.column]);
 
-        if(isThisTile && game.lastPlayerSymbol !== props.player.symbol){
-            setIsChecked(true);
-            setIsEnemy(true);
-            setIsYourTurn(true);
+    }, [game.board[props.row][props.column]]);
+
+    useEffect(()=>{
+        console.log([[0,0]].includes([0,0]))
+        
+        game.winningTileCoordinates.map(coordinate =>{
+            if(JSON.stringify(coordinate) === JSON.stringify([props.row, props.column])){
+                console.log('yep this one', coordinate, [props.row, props.column])
+                setIsHighlighted(true);
+                return true;
+              
+            }
+        })
+
+        if(game.winningTileCoordinates.includes([props.row, props.column])){
+            console.log('INCLUDES');
         }
-    }, [game.board[props.row][props.column]])
-    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} >
+
+    }, [game.winningTileCoordinates])
+    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} $isHighlighted={isHighlighted} $playerSymbol={player.symbol} >
 
 
         {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}

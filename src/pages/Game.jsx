@@ -11,18 +11,28 @@ export default function Game(props) {
 
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
-    // console.log('POSITION: ', game.board);
     
 
 
 
     useEnemy();
 
-    // useEffect(() => {
-    //     if(player.symbol === constants.CROSS && player.isYourTurn === false){
-    //         player.setIsYourTurn(true);
-    //     }
-    // }, [])
+
+    useEffect(()=>{
+        console.log('ahaa');
+        console.log(game.isGameOver , game.winner, player.symbol, player.enemySymbol);
+        if(game.isGameOver && game.isTie){
+            player.increaseTies();
+        }
+        
+        else if(game.isGameOver && game.winner === player.symbol){
+            console.log('hmmmmm');
+            player.increaseWins();
+        }
+        else if(game.isGameOver && game.winner === player.enemySymbol){
+            player.increaseLooses();
+        }
+    },[game.winner])
 
     return (
         <section className="game">

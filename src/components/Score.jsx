@@ -35,6 +35,8 @@ const handleColorType = (color) => {
 };
 
 const Score = (props) => {
+
+    console.log(props);
     return <StyledScore {...props}>
         <StyledText>{props.text}</StyledText>
         <StyledCounter>{props.counter}</StyledCounter>

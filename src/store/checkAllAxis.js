@@ -1,6 +1,7 @@
+import { usePlayerStore } from '.';
 import constants from '../constants';
 
-function isSequence({lastTile, board, setGameOver, setWinner, playerSymbol}){
+function isSequence({lastTile, board, setGameOver, setWinner,symbol, increaseWins, increaseLooses, enemySymbol, setWinningTileCoordinates}){
     const movedSymbol = board[lastTile[0]][lastTile[1]];
     const originX = lastTile[1];
     const originY = lastTile[0];
@@ -33,9 +34,16 @@ function isSequence({lastTile, board, setGameOver, setWinner, playerSymbol}){
             topRightBottomLeftAxis++;
         }
         if([leftRightAxis, topBottomAxis, topLeftBottomRightAxis, topRightBottomLeftAxis].includes(2)){
-            console.log([leftRightAxis, topBottomAxis, topLeftBottomRightAxis, topRightBottomLeftAxis]);
+            if(leftRightAxis === 2){
+                setWinningTileCoordinates([[originY, 0],[originY, 1],[originY, 2]])
+            }
+            else if(topBottomAxis === 2){
+                setWinningTileCoordinates([[0, originX],[1, originX],[2, originX]])
+            }
             setWinner(movedSymbol);
+            
             setGameOver(true);
+            
             return true;
         }
     }

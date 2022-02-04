@@ -17,7 +17,9 @@ export default function Switch() {
                 className={`switch__cross-container`}
                 onClick={() => {
                     player.setSymbol(constants.CROSS);
+                    player.setEnemySymbol(constants.CIRCLE);
                     player.setIsYourTurn(true);
+                    player.setIsEnemyTurn(false);
                 }}
             >
                 <Cross
@@ -33,8 +35,10 @@ export default function Switch() {
             <button
                 className={`switch__circle-container`}
                 onClick={() => {
-                    player.setSymbol(constants.CIRCLE)
+                    player.setSymbol(constants.CIRCLE);
+                    player.setEnemySymbol(constants.CROSS);
                     player.setIsYourTurn(false);
+                    player.setIsEnemyTurn(true);
                 }}
             >
                 <Circle

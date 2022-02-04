@@ -58,12 +58,12 @@ const EndRoundModal = () => {
 
     useEffect(()=>{
         if(player.symbol === constants.CROSS){
+
             player.setIsYourTurn(true);
         }
         else {
             player.setIsYourTurn(false);
         }
-        console.log("TIE ?:", game.isTie);
     }, [game.isGameOver])
     return (
         game.isGameOver &&
@@ -81,11 +81,22 @@ const EndRoundModal = () => {
                     game.setGameOver(false);
                     game.setIsTie(false);
                     game.resetBoard();
+                    
                     }}>QUIT</Button>
-                <Button color="yellow" route="/game" onClick={()=>{
-                    game.setGameOver(false);
+                <Button color="yellow" onClick={()=>{
+                    console.log(game.isGameOver);
                     game.setIsTie(false);
                     game.resetBoard();
+                    game.setGameOver(false);
+                    game.setWinner('');
+                    if(player.symbol === constants.CROSS){
+                        player.setIsYourTurn(true);
+                        player.setIsEnemyTurn(false);
+                    }
+                    else if(player.enemySymbol === constants.CROSS){
+                        player.setIsYourTurn(false);
+                        player.setIsEnemyTurn(true);
+                    }
                 }} >NEXT ROUND</Button>
             </ButtonContainer>
         </StyledModal>

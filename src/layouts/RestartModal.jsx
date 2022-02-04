@@ -63,7 +63,6 @@ const EndRoundModal = () => {
         else {
             player.setIsYourTurn(false);
         }
-        console.log("TIE ?:", game.isTie);
     }, [game.isGameOver])
     return (
         game.showRestartModal && <StyledModal> 
@@ -75,9 +74,21 @@ const EndRoundModal = () => {
                     game.setShowRestartModal(false);
                     }}>NO, CANCEL</Button>
                 <Button color="yellow" onClick={()=>{
-                    game.setIsTie(false);
+                    game.setGameOver(true);
                     game.resetBoard();
+                    game.setIsTie(false);
+                    game.setGameOver(false);
+                    game.setWinner('');
                     game.setShowRestartModal(false);
+                    if(player.symbol === constants.CROSS){
+                        player.setIsYourTurn(true);
+                        player.setIsEnemyTurn(false);
+                    }
+                    else if(player.enemySymbol === constants.CROSS){
+                        player.setIsYourTurn(false);
+                        player.setIsEnemyTurn(true);
+                    }
+
                 }} >YES, RESTART</Button>
             </ButtonContainer>
         </StyledModal>
