@@ -77,6 +77,7 @@ const EndRoundModal = () => {
                     game.setGameOver(true);
                     game.resetBoard();
                     game.setIsTie(false);
+                    game.resetWinningLineCoordinates();
                     game.setGameOver(false);
                     game.setWinner('');
                     game.setShowRestartModal(false);

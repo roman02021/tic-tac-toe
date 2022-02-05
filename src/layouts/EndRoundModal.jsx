@@ -80,6 +80,7 @@ const EndRoundModal = () => {
                 <Button color="silver" route="/"  onClick={()=>{
                     game.setGameOver(false);
                     game.setIsTie(false);
+                    game.resetWinningLineCoordinates();
                     game.resetBoard();
                     
                     }}>QUIT</Button>
@@ -87,6 +88,7 @@ const EndRoundModal = () => {
                     console.log(game.isGameOver);
                     game.setIsTie(false);
                     game.resetBoard();
+                    game.resetWinningLineCoordinates();
                     game.setGameOver(false);
                     game.setWinner('');
                     if(player.symbol === constants.CROSS){

@@ -12,14 +12,24 @@ const StyledTile = styled.div`
     height: 8.75rem;
     width: 8.75rem;
     box-sizing: border-box;
-    background-color: ${theme.colors.backgroundColor};
+    /* background-color: ${theme.colors.backgroundColor}; */
+    ${(props) =>{
+        if(props.$isHighlighted && props.$playerSymbol === constants.CROSS){
+            return `background-color: ${props.$isEnemy ? theme.colors.primaryCircle  : theme.colors.primaryCross};`
+        }
+        else if(props.$isHighlighted && props.$playerSymbol === constants.CIRCLE){
+            return `background-color: ${props.$isEnemy ? theme.colors.primaryCross : theme.colors.primaryCircle};`
+        }
+        else {
+            return `background-color: ${theme.colors.backgroundColor};`
+        }
+    }}
     border-radius: ${theme.borders.borderRadius};
     border-bottom: 0.5rem solid #10212a;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: ${(props) => props.isChecked || !props.isYourTurn ?  'default' : 'pointer' };
-    
+    cursor: ${(props) => props.isChecked || !props.isYourTurn ?  'default' : 'pointer' }; 
 `
 
 
@@ -76,31 +86,41 @@ export default function Tile(props) {
     }, [game.board[props.row][props.column]]);
 
     useEffect(()=>{
-        console.log([[0,0]].includes([0,0]))
+        console.log('IT SHOULD RESET NOW', game.winningLineCoordinates);
         
-        game.winningTileCoordinates.map(coordinate =>{
-            if(JSON.stringify(coordinate) === JSON.stringify([props.row, props.column])){
-                console.log('yep this one', coordinate, [props.row, props.column])
+        //Check if this tile is on the winning line
+    
+        // game.winningLineCoordinates.map((coordinate) =>{
+        //     if(JSON.stringify(coordinate) === JSON.stringify([props.row, props.column])){
+        //         // console.log('yep this one', coordinate, [props.row, props.column])
+        //         setIsHighlighted(true);
+        //     }
+        // })
+        for(let i = 0; i < game.winningLineCoordinates.length; i++){ 
+            if(JSON.stringify(game.winningLineCoordinates[i]) === JSON.stringify([props.row, props.column])){
                 setIsHighlighted(true);
-                return true;
-              
+                break;
             }
-        })
-
-        if(game.winningTileCoordinates.includes([props.row, props.column])){
-            console.log('INCLUDES');
+            else if(i === game.winningLineCoordinates.length - 1){
+                setIsHighlighted(false);
+            }
         }
 
-    }, [game.winningTileCoordinates])
-    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} $isHighlighted={isHighlighted} $playerSymbol={player.symbol} >
+        // if(game.winningLineCoordinates.includes([props.row, props.column])){
+        //     console.log('INCLUDES');
+        // }
+
+    }, [game.winningLineCoordinates])
+    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} $isHighlighted={isHighlighted} $playerSymbol={player.symbol} $enemySymbol={player.enemySymbol} $isEnemy={isEnemy}>
 
 
         {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
         {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
 
         
-        {isChecked && props.player.symbol === constants.CROSS   ? !isEnemy ? <Cross height={64} width={64} color={theme.colors.primaryCross}/> : <Circle height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
-        {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={64} width={64} color={theme.colors.primaryCircle}/> : <Cross height={64} width={64} color={theme.colors.primaryCross}/> : ''}
+        {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : ''}
+
+        {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : ''}
         
         
         </StyledTile>;

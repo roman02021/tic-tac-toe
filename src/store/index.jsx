@@ -53,8 +53,9 @@ export const useGameStore = create(devtools((set, get) => ({
     resetBoard: () => set((state)=> set({board: Array.from(Array(constants.ROWS).fill(constants.EMPTY), () => Array(constants.COLUMNS).fill(0))})),
     winner: '',
     setWinner: (winner) => set((state) => set({winner})),
-    winningTileCoordinates: [[constants.EMPTY, constants.EMPTY], [constants.EMPTY, constants.EMPTY], [constants.EMPTY, constants.EMPTY]],
-    setWinningTileCoordinates: (winningTileCoordinates) => set((state) => set({winningTileCoordinates})),
+    winningLineCoordinates: [[-1, -1], [-1, -1], [-1, -1]],
+    resetWinningLineCoordinates: () => set((state) => set({winningLineCoordinates: [[-1, -1], [-1, -1], [-1, -1]]})),
+    setWinningLineCoordinates: (winningLineCoordinates) => set((state) => set({winningLineCoordinates})),
     setGameOver: (gameOver) => set((state) => {
         // console.log('INSIDE SHIT', gameOver);
         (set({isGameOver: gameOver}));

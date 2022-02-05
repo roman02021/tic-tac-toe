@@ -1,7 +1,7 @@
 import { usePlayerStore } from '.';
 import constants from '../constants';
 
-function isSequence({lastTile, board, setGameOver, setWinner,symbol, increaseWins, increaseLooses, enemySymbol, setWinningTileCoordinates}){
+function isSequence({lastTile, board, setGameOver, setWinner,symbol, increaseWins, increaseLooses, enemySymbol, setWinningLineCoordinates}){
     const movedSymbol = board[lastTile[0]][lastTile[1]];
     const originX = lastTile[1];
     const originY = lastTile[0];
@@ -35,10 +35,17 @@ function isSequence({lastTile, board, setGameOver, setWinner,symbol, increaseWin
         }
         if([leftRightAxis, topBottomAxis, topLeftBottomRightAxis, topRightBottomLeftAxis].includes(2)){
             if(leftRightAxis === 2){
-                setWinningTileCoordinates([[originY, 0],[originY, 1],[originY, 2]])
+                setWinningLineCoordinates([[originY, 0],[originY, 1],[originY, 2]])
             }
             else if(topBottomAxis === 2){
-                setWinningTileCoordinates([[0, originX],[1, originX],[2, originX]])
+                setWinningLineCoordinates([[0, originX],[1, originX],[2, originX]])
+            }
+            else if(topLeftBottomRightAxis === 2){
+                setWinningLineCoordinates([[2, 0],[1, 1],[0, 2]])
+                
+            }
+            else if(topRightBottomLeftAxis === 2){
+                setWinningLineCoordinates([[0, 0],[1, 1],[2, 2]])
             }
             setWinner(movedSymbol);
             
