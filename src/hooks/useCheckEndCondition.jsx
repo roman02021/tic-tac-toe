@@ -5,7 +5,7 @@ const useCheckEndCondition = () => {
     const game = useGameStore((state) => state);
     const lastAddedSymbol = game.lastPlayerSymbol;
     const lastChangedTile = game.lastTile;
-    console.log('X', lastChangedTile[1] , 'Y', lastChangedTile[0])
+    // console.log('X', lastChangedTile[1] , 'Y', lastChangedTile[0])
     const initialSymbol = game.board[lastChangedTile[0]][lastChangedTile[1]];
     let currentX = lastChangedTile[1];
     let currentY = lastChangedTile[0];
@@ -27,7 +27,6 @@ const useCheckEndCondition = () => {
         }
         if(consecutiveSymbols >= neededConsecutiveSymbols  - 1) {
             game.setGameOver(true);
-            console.log("GAME OVER", game.isGameOver);
             game.setWinner(initialSymbol);
             return true;
         }
@@ -153,7 +152,7 @@ const useCheckEndCondition = () => {
     }
 
     //game.board[lastChangedTile[0]][lastChangedTile[1]];
-    console.log(initialSymbol);
+    // console.log(initialSymbol);
 
     if(checkNorthSouthAxis()){return};
     if(checkNorthEastAxis()){return};

@@ -1,16 +1,24 @@
 import React from 'react';
 import Switch from '../components/Switch';
+import theme from '../styles/theme';
+import styled from 'styled-components';
 
-import '../styles/styles.scss';
+import constants from '../constants';
 
-export default function ChooseMark() {
+const StyledMenuBackground = styled.div`
+        border-radius: 15px;
+        background-color: ${theme.colors.backgroundColor};
+        padding: 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 2.5rem 0;
+        border-bottom: 0.5rem solid ${theme.colors.menuBorderColor};
+`
+
+export default function ChooseMark({children}) {
     return (
-        <div className="choose-mark">
-            <div className="heading-xs choose-mark__title">
-                PICK PLAYER 1’S MARK
-            </div>
-            <Switch />
-            <div className="choose-mark__subtitle">REMEMBER : X GOES FIRST</div>
-        </div>
+        <StyledMenuBackground>
+            {children}
+        </StyledMenuBackground>
     );
 }

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import {useGameStore, usePlayerStore} from '../store';
 import constants from "../constants";
+import Game from "../pages/Game";
+
 
 const useEnemy = () => {
     const initialRender = useRef(true);
@@ -11,10 +13,16 @@ const useEnemy = () => {
     const setTile = useGameStore((state) => state.setTile);
     const isEnemyTurn = usePlayerStore((state) => state.isEnemyTurn);
     const isGameOver = useGameStore((state) => state.isGameOver);
+    const isMultiplayer = useGameStore((state) => state.isMultiplayer);
     const setGameOver = useGameStore((state) => state.setGameOver);
     const setWinner = useGameStore((state) => state.setWinner);
     const board = useGameStore((state) => state.board);
     const lastTile = useGameStore((state) => state.lastTile);
+
+
+    //Board info JSON
+
+    
 
 
     const enemySymbol = player.symbol === constants.CROSS ? constants.CIRCLE : constants.CROSS;
@@ -41,23 +49,24 @@ const useEnemy = () => {
         const enemyMove = availablePositions[random(availablePositions.length)];
         
         // sleep(300);
-        
-        console.log('BEFORE ENEMY MOVE', player.isYourTurn);
         setTile(enemySymbol, enemyMove[0], enemyMove[1]);
         setIsYourTurn(true);
         
     }
 
     useEffect(()=>{
-        console.count("STARTED");
-        if(!isGameOver){
-            console.log("before chedk")
-            if(isEnemyTurn){
-                console.log("HER EEE")
-                enemyMovement();
+        if(!isMultiplayer){
+            if(!isGameOver){
+                if(isEnemyTurn){
+                    enemyMovement();
+                }
             }
         }
+
+
+
         
+
         initialRender.current = false;
     },[isEnemyTurn, isGameOver])
 }

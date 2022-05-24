@@ -2,20 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu from './pages/Menu';
 import Game from './pages/Game';
+import Multiplayer from './pages/Multiplayer';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route path="/" element={<Menu />} />
                     <Route path="game" element={<Game />} />
                 </Route>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );

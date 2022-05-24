@@ -6,7 +6,7 @@ import Cross from '../components/icons/Cross';
 import CircleOutline from '../components/icons/CircleOutline';
 import CrossOutline from '../components/icons/CrossOutline';
 import constants from '../constants';
-import {useGameStore, usePlayerStore} from '../store';
+import {useGameStore, usePlayerStore, useMultiplayerStore} from '../store';
 
 const StyledTile = styled.div`
     height: 8.75rem;
@@ -14,11 +14,17 @@ const StyledTile = styled.div`
     box-sizing: border-box;
     /* background-color: ${theme.colors.backgroundColor}; */
     ${(props) =>{
-        if(props.$isHighlighted && props.$playerSymbol === constants.CROSS){
+        if(!props.$isMultiplayer && props.$isHighlighted && props.$playerSymbol === constants.CROSS){
             return `background-color: ${props.$isEnemy ? theme.colors.primaryCircle  : theme.colors.primaryCross};`
         }
-        else if(props.$isHighlighted && props.$playerSymbol === constants.CIRCLE){
+        else if(!props.$isMultiplayer && props.$isHighlighted && props.$playerSymbol === constants.CIRCLE){
             return `background-color: ${props.$isEnemy ? theme.colors.primaryCross : theme.colors.primaryCircle};`
+        }
+        else if(props.$isMultiplayer && props.$isHighlighted && props.$isCross){
+            return `background-color: ${props.$isEnemy ? theme.colors.primaryCircle  : theme.colors.primaryCross};`
+        }
+        else if(props.$isMultiplayer && props.$isHighlighted && !props.$isCross){
+            return `background-color: ${props.$isEnemy ? theme.colors.primaryCircle  : theme.colors.primaryCircle};`
         }
         else {
             return `background-color: ${theme.colors.backgroundColor};`
@@ -39,54 +45,84 @@ export default function Tile(props) {
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [isEnemy, setIsEnemy] = useState(false);
+
+    const [isCross, setIsCross] = useState(true);
+    
     
     const game = useGameStore((state) => state);
     const player = usePlayerStore((state) => state);
-
+    const multiplayer = useMultiplayerStore((state) => state);
+    console.log('isMulti ???', game.isMultiplayer,  multiplayer.isPlayerOneTurn);
     const handleMouseEnter = (e) => {
-        if(props.player.isYourTurn){
+        
+        if(props.player.isYourTurn || game.isMultiplayer){
             setIsHovering(true);
         }
     }
     const handleMouseLeave = () => {
-        if(props.player.isYourTurn){
+        if(props.player.isYourTurn || game.isMultiplayer){
             setIsHovering(false);
         }
     }
     const handleClick = () => {
-        if(!isChecked && props.player.isYourTurn) {
+        if(!isChecked && props.player.isYourTurn && !game.isMultiplayer) {
             game.setTile(props.player.symbol, props.row, props.column);
             setIsChecked(true);
             player.setIsYourTurn(false);
             player.setIsEnemyTurn(true);
             
         }
+        else if(!isChecked && game.isMultiplayer){
+            
+            setIsChecked(true);
+            if(multiplayer.isPlayerOneTurn){
+                game.setTile(constants.CROSS, props.row, props.column);
+                setIsCross(true);
+                multiplayer.setIsPlayerOneTurn(false);
+            }
+            else {
+                game.setTile(constants.CIRCLE, props.row, props.column);
+                setIsCross(false);
+                multiplayer.setIsPlayerOneTurn(true);
+            }
+        }
+
+        
     }
     useEffect(()=>{
-        console.log('BOARD CHANGED');
-        console.log(game.board, player.isEnemyTurn,game.board[props.row][props.column], player.enemySymbol, player.isEnemyTurn && game.board[props.row][props.column] === player.enemySymbol);
-        if(game.board[props.row][props.column] === constants.EMPTY){
-            setIsChecked(false);
-            setIsEnemy(false);
-            setIsHovering(false);
+        if(!game.isMultiplayer){
+            if(game.board[props.row][props.column] === constants.EMPTY){
+                setIsChecked(false);
+                setIsEnemy(false);
+                setIsHovering(false);
+            }
+            else if(player.isYourTurn && game.board[props.row][props.column] === player.symbol){
+                setIsChecked(true);
+                player.setIsEnemyTurn(true);
+                player.setIsYourTurn(false);
+            }
+            else if(player.isEnemyTurn && game.board[props.row][props.column] === player.enemySymbol){
+                setIsEnemy(true);
+                setIsChecked(true);
+                player.setIsYourTurn(true);
+                player.setIsEnemyTurn(false);
+            }
         }
-        else if(player.isYourTurn && game.board[props.row][props.column] === player.symbol){
-            setIsChecked(true);
-            player.setIsEnemyTurn(true);
-            player.setIsYourTurn(false);
+        else {
+            if(game.board[props.row][props.column] === constants.EMPTY){
+                setIsChecked(false);
+                setIsEnemy(false);
+                setIsHovering(false);
+            }
+            else {
+            }
         }
-        else if(player.isEnemyTurn && game.board[props.row][props.column] === player.enemySymbol){
-            console.log('aa');
-            setIsEnemy(true);
-            setIsChecked(true);
-            player.setIsYourTurn(true);
-            player.setIsEnemyTurn(false);
-        }
+
 
     }, [game.board[props.row][props.column]]);
 
     useEffect(()=>{
-        console.log('IT SHOULD RESET NOW', game.winningLineCoordinates);
+        // console.log('IT SHOULD RESET NOW', game.winningLineCoordinates);
         
         //Check if this tile is on the winning line
     
@@ -106,21 +142,34 @@ export default function Tile(props) {
             }
         }
 
-        // if(game.winningLineCoordinates.includes([props.row, props.column])){
-        //     console.log('INCLUDES');
-        // }
-
     }, [game.winningLineCoordinates])
-    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} $isHighlighted={isHighlighted} $playerSymbol={player.symbol} $enemySymbol={player.enemySymbol} $isEnemy={isEnemy}>
+    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} $isHighlighted={isHighlighted} $isMultiplayer={game.isMultiplayer} $isCross={isCross} $playerSymbol={player.symbol} $enemySymbol={player.enemySymbol} $isEnemy={isEnemy}>
+        {
+        !game.isMultiplayer ?
+        <>
+            {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
 
+            {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
 
-        {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
-        {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+            
+            {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : ''}
 
-        
-        {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : ''}
+            {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : ''}
+        </>
+        :
+        <>
+            {isHovering && multiplayer.isPlayerOneTurn && !isChecked ? <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
 
-        {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : ''}
+            {isHovering && !multiplayer.isPlayerOneTurn && !isChecked ? <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+
+            {isChecked && isCross ? 
+            <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : '' }
+
+            {isChecked && !isCross ? 
+            <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> 
+            : '' }
+        </>
+        }
         
         
         </StyledTile>;

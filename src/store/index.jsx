@@ -10,7 +10,7 @@ import constants from '../constants';
 
 
 
-export const usePlayerStore = create((devtools((set) => ({
+export const usePlayerStore = create((persist((set) => ({
     symbol: constants.CROSS,
     enemySymbol: constants.CIRCLE,
     wins: 0,
@@ -25,10 +25,13 @@ export const usePlayerStore = create((devtools((set) => ({
     increaseWins: () => set((state) => ({wins: state.wins + 1})),
     increaseTies: () => set((state) => ({ties: state.ties + 1})),
     increaseLooses: () => set((state) => ({looses: state.looses + 1})),
-}))))
+}), {
+    name: "player-storage"
+    }
+)));
 
 
-export const useGameStore = create(devtools((set, get) => ({
+export const useGameStore = create((persist((set, get) => ({
     //creates game board with fields initialized at 0
     board: Array.from(Array(constants.ROWS).fill(constants.EMPTY), () => Array(constants.COLUMNS).fill(0)),
     lastTile: [0,0],
@@ -41,15 +44,15 @@ export const useGameStore = create(devtools((set, get) => ({
         state.lastPlayerSymbol = symbol;
         state.lastTile = [row, column];
         if(checkEndCondition(state)){
-            // console.log('GAME OVER', symbol);
             state.isGameOver = true;
             state.winner = symbol;
         }
     },
     ),
-
+    isMultiplayer: false,
+    setIsMultiplayer: (isMultiplayer) => set((state) => set({isMultiplayer})),
     showRestartModal: false,
-    setShowRestartModal: (showRestartModal) => set((state) =>{ console.log("KURVA"); set({showRestartModal})}),
+    setShowRestartModal: (showRestartModal) => set((state) =>{ set({showRestartModal})}),
     resetBoard: () => set((state)=> set({board: Array.from(Array(constants.ROWS).fill(constants.EMPTY), () => Array(constants.COLUMNS).fill(0))})),
     winner: '',
     setWinner: (winner) => set((state) => set({winner})),
@@ -57,22 +60,30 @@ export const useGameStore = create(devtools((set, get) => ({
     resetWinningLineCoordinates: () => set((state) => set({winningLineCoordinates: [[-1, -1], [-1, -1], [-1, -1]]})),
     setWinningLineCoordinates: (winningLineCoordinates) => set((state) => set({winningLineCoordinates})),
     setGameOver: (gameOver) => set((state) => {
-        // console.log('INSIDE SHIT', gameOver);
         (set({isGameOver: gameOver}));
-        // console.log('INSIDE SHIT', state.isGameOver);
-    }),
-    // checkEndCondition: async () => await checkEndCondition()
-    
-})))
+    }),    
+}), {
+    name: "game-storage"
+    }
+)));
 
 
-
+export const useMultiplayerStore = create((persist((set, get) => ({
+    //creates game board with fields initialized at 0
+    isPlayerOneTurn: true,
+    setIsPlayerOneTurn: (isPlayerOneTurn) => set({isPlayerOneTurn}),
+    playerOneScore: 0,
+    incrementPlayerOneScore: () => set((state) => ({playerOneScore: state.playerOneScore + 1})),
+    playerTwoScore: 0,
+    incrementPlayerTwoScore: () => set((state) => ({playerTwoScore: state.playerTwoScore + 1})),
+    resetScore: set((state) => ({playerOneScore: 0, playerTwoScore: 0}))
+}), {
+    name: "multiplayer-storage"
+    }
+)));
 
 
 const checkEndCondition = (state) => {
-    // const game = useGameStore((state) => state);
-
-
     if(checkAllAxis(state)){
         console.log('game ended');
     }

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import TopControls from '../layouts/TopControls';
 import Board from '../layouts/Board';
 import BottomStats from '../layouts/BottomStats.jsx';
@@ -6,27 +6,22 @@ import '../styles/styles.css';
 import {usePlayerStore, useGameStore} from '../store';
 import constants from '../constants';
 import useEnemy from '../hooks/enemy';
+import * as signalR from "@microsoft/signalr";
 
 export default function Game(props) {
 
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
-    
-
-
 
     useEnemy();
-
-
+    
+    
     useEffect(()=>{
-        console.log('ahaa');
-        console.log(game.isGameOver , game.winner, player.symbol, player.enemySymbol);
         if(game.isGameOver && game.isTie){
             player.increaseTies();
         }
         
         else if(game.isGameOver && game.winner === player.symbol){
-            console.log('hmmmmm');
             player.increaseWins();
         }
         else if(game.isGameOver && game.winner === player.enemySymbol){
@@ -34,6 +29,8 @@ export default function Game(props) {
         }
     },[game.winner])
 
+
+    
     return (
         <section className="game">
             <TopControls></TopControls>

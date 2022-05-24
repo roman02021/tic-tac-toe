@@ -11,6 +11,7 @@ const theme = {
         secondaryBorder: '#6B8997',
         borderColor: '#1a2a33',
         backgroundColor: '#1f3641',
+        menuBorderColor: '#10212a'
     },
     borders: {
         borderRadius: '15px',
