@@ -20,7 +20,6 @@ const Board = (props) => {
 
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
-    console.log(game.isMultiplayer);
     return (
 
         <StyledBoard>

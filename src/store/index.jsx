@@ -76,6 +76,8 @@ export const useMultiplayerStore = create((persist((set, get) => ({
     incrementPlayerOneScore: () => set((state) => ({playerOneScore: state.playerOneScore + 1})),
     playerTwoScore: 0,
     incrementPlayerTwoScore: () => set((state) => ({playerTwoScore: state.playerTwoScore + 1})),
+    ties: 0,
+    incrementTies: () => set((state) => ({ties: state.ties + 1})),
     resetScore: set((state) => ({playerOneScore: 0, playerTwoScore: 0}))
 }), {
     name: "multiplayer-storage"

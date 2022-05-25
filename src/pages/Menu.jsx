@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import Switch from '../components/Switch';
 import Logo from '../components/icons/Logo';
 import styled from 'styled-components';
-import {useGameStore, usePlayerStore} from '../store';
+import {useGameStore, usePlayerStore, useMultiplayerStore} from '../store';
 import constants from '../constants';
 import Game from './Game';
 
@@ -21,6 +21,7 @@ const StyledMenu = styled.section`
 function Menu(props) {
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
+    const multiplayer = useMultiplayerStore((state) => state);
     return (
         <StyledMenu >
             <div className="logo">
@@ -51,12 +52,13 @@ function Menu(props) {
                 game.resetBoard();
                 game.setWinner('');
                 game.setIsMultiplayer(true);
-                if(player.symbol === constants.CROSS){
-                    player.setIsYourTurn(true);
-                }
-                else {
-                    player.setIsYourTurn(false);
-                }
+                multiplayer.setIsPlayerOneTurn(true);
+                // if(player.symbol === constants.CROSS){
+                //     player.setIsYourTurn(true);
+                // }
+                // else {
+                //     player.setIsYourTurn(false);
+                // }
             }}
             route="/game" color="blue" vertical>
                 New game (vs Player)

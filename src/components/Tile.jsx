@@ -35,12 +35,11 @@ const StyledTile = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: ${(props) => props.isChecked || !props.isYourTurn ?  'default' : 'pointer' }; 
+    cursor: ${(props) => props.$isMultiplayer ? 'pointer' : props.isChecked || !props.isYourTurn ?  'default' : 'pointer' }; 
 `
 
 
 export default function Tile(props) {
-    // console.log(props.symbol);
     const [isChecked, setIsChecked] = useState(false);
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
@@ -52,7 +51,6 @@ export default function Tile(props) {
     const game = useGameStore((state) => state);
     const player = usePlayerStore((state) => state);
     const multiplayer = useMultiplayerStore((state) => state);
-    console.log('isMulti ???', game.isMultiplayer,  multiplayer.isPlayerOneTurn);
     const handleMouseEnter = (e) => {
         
         if(props.player.isYourTurn || game.isMultiplayer){

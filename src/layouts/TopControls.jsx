@@ -8,8 +8,9 @@ import SlimTile from '../components/SlimTile';
 import theme from '../styles/theme';
 import styled from 'styled-components';
 import GridItem from './GridItem';
-import {usePlayerStore, useGameStore} from '../store';
+import {usePlayerStore, useGameStore, useMultiplayerStore} from '../store';
 import constants from '../constants';
+import Game from '../pages/Game';
 
 
 
@@ -27,6 +28,8 @@ const StyledTopControls = styled.div`
 const TopControls = () => {
 
     const player = usePlayerStore((state) => state);
+    const game = useGameStore((state) => state);
+    const multiplayer = useMultiplayerStore((state) => state);
     const setShowRestartModal = useGameStore((state) => state.setShowRestartModal);
 
     // console.log(player.symbol === constants.CROSS)
@@ -38,16 +41,29 @@ const TopControls = () => {
             <GridItem position='center'>
                 <SlimTile
                     icon={
+                        !game.isMultiplayer ?
+                        (
                         (player.isYourTurn && player.symbol === constants.CROSS) || (!player.isYourTurn && player.symbol === constants.CIRCLE) ? 
                         <Cross
                             width={20}
                             height={20}
-                            color={theme.colors.secondary}
-                        /> : <Circle
+                            color={theme.colors.secondary}/> 
+                        : 
+                        <Circle
                         width={20}
                         height={20}
-                        color={theme.colors.primaryCircle}
-                    />
+                        color={theme.colors.primaryCircle}/>
+                        )
+                        :
+                        multiplayer.isPlayerOneTurn ? <Cross
+                        width={20}
+                        height={20}
+                        color={theme.colors.secondary}/>  
+                        :
+                        <Circle
+                        width={20}
+                        height={20}
+                        color={theme.colors.primaryCircle}/>
                     }
                 >
                     Turn
