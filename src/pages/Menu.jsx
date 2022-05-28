@@ -38,6 +38,7 @@ function Menu(props) {
                 game.resetBoard();
                 game.setWinner('');
                 game.setIsMultiplayer(false);
+                player.resetScore();
                 if(player.symbol === constants.CROSS){
                     player.setIsYourTurn(true);
                 }
@@ -53,6 +54,8 @@ function Menu(props) {
                 game.setWinner('');
                 game.setIsMultiplayer(true);
                 multiplayer.setIsPlayerOneTurn(true);
+                multiplayer.setIsGameOver(false);
+                multiplayer.resetScore();
                 // if(player.symbol === constants.CROSS){
                 //     player.setIsYourTurn(true);
                 // }

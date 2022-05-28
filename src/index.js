@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Menu from './pages/Menu';
 import Game from './pages/Game';
-import Multiplayer from './pages/Multiplayer';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';

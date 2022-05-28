@@ -8,11 +8,9 @@ function isSequence({lastTile, board, setGameOver, setWinner,symbol, increaseWin
     let [leftRightAxis, topBottomAxis, topLeftBottomRightAxis, topRightBottomLeftAxis] = [0,0,0,0];
     for(let i = 1; i < constants.ROWS; i++){
         if(originX - i >= 0 && board[originY][originX - i] === movedSymbol){
-            console.log(originX - i, board[originY][originX - i], movedSymbol, originY);
             leftRightAxis++;
         }
         if(originX + i < constants.COLUMNS && board[originY][originX + i] === movedSymbol){
-            console.log(originX + i, board[originY][originX + i], movedSymbol, originY);
             leftRightAxis++;
         }
         if(originY - i >= 0 && board[originY - i][originX] === movedSymbol){

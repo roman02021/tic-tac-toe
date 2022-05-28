@@ -32,7 +32,6 @@ const TopControls = () => {
     const multiplayer = useMultiplayerStore((state) => state);
     const setShowRestartModal = useGameStore((state) => state.setShowRestartModal);
 
-    // console.log(player.symbol === constants.CROSS)
     return (
         <StyledTopControls>
             <GridItem position='left'>
@@ -44,26 +43,40 @@ const TopControls = () => {
                         !game.isMultiplayer ?
                         (
                         (player.isYourTurn && player.symbol === constants.CROSS) || (!player.isYourTurn && player.symbol === constants.CIRCLE) ? 
-                        <Cross
+                        (!game.isGameOver ?<Circle
                             width={20}
                             height={20}
-                            color={theme.colors.secondary}/> 
+                            color={theme.colors.primaryCircle}/> : <Cross
+                            width={20}
+                            height={20}
+                            color={theme.colors.secondary}/>) 
                         : 
-                        <Circle
-                        width={20}
-                        height={20}
-                        color={theme.colors.primaryCircle}/>
+                        (!game.isGameOver ?
+                            <Cross
+                                width={20}
+                                height={20}
+                                color={theme.colors.primaryCross}/> : <Circle
+                                width={20}
+                                height={20}
+                                color={theme.colors.secondary}/>) 
                         )
                         :
-                        multiplayer.isPlayerOneTurn ? <Cross
+                        multiplayer.isPlayerOneTurn ? (!game.isGameOver ?<Cross
                         width={20}
                         height={20}
-                        color={theme.colors.secondary}/>  
+                        color={theme.colors.secondary}/> : <Circle
+                        width={20}
+                        height={20}
+                        color={theme.colors.primaryCircle}/>)  
                         :
+                        (!game.isGameOver ?
                         <Circle
-                        width={20}
-                        height={20}
-                        color={theme.colors.primaryCircle}/>
+                            width={20}
+                            height={20}
+                            color={theme.colors.secondary}/> : <Cross
+                            width={20}
+                            height={20}
+                            color={theme.colors.primaryCross}/>)  
                     }
                 >
                     Turn

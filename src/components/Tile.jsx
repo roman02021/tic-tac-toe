@@ -76,12 +76,17 @@ export default function Tile(props) {
             if(multiplayer.isPlayerOneTurn){
                 game.setTile(constants.CROSS, props.row, props.column);
                 setIsCross(true);
-                multiplayer.setIsPlayerOneTurn(false);
+                
+                if(!game.isGameOver){
+                    multiplayer.setIsPlayerOneTurn(false);
+                }
             }
             else {
                 game.setTile(constants.CIRCLE, props.row, props.column);
                 setIsCross(false);
-                multiplayer.setIsPlayerOneTurn(true);
+                if(!game.isGameOver){
+                    multiplayer.setIsPlayerOneTurn(true);
+                }
             }
         }
 
@@ -120,13 +125,11 @@ export default function Tile(props) {
     }, [game.board[props.row][props.column]]);
 
     useEffect(()=>{
-        // console.log('IT SHOULD RESET NOW', game.winningLineCoordinates);
         
         //Check if this tile is on the winning line
     
         // game.winningLineCoordinates.map((coordinate) =>{
         //     if(JSON.stringify(coordinate) === JSON.stringify([props.row, props.column])){
-        //         // console.log('yep this one', coordinate, [props.row, props.column])
         //         setIsHighlighted(true);
         //     }
         // })

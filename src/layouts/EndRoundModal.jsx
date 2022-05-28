@@ -5,7 +5,7 @@ import Cross from '../components/icons/Cross';
 import Circle from '../components/icons/Circle';
 import theme from '../styles/theme';
 
-import {useGameStore, usePlayerStore} from '../store';
+import {useGameStore, usePlayerStore, useMultiplayerStore} from '../store';
 import constants from '../constants';
 
 const StyledModal = styled.div`
@@ -55,20 +55,37 @@ const ButtonContainer = styled.div`
 const EndRoundModal = () => {
     const game = useGameStore((state) => state);
     const player = usePlayerStore((state) => state);
+    const multiplayer = useMultiplayerStore((state) => state);
 
     useEffect(()=>{
-        if(player.symbol === constants.CROSS){
+        if(game.isGameOver){
+            if(!game.isMultiplayer){
+                if(player.symbol === constants.CROSS){
+                    player.setIsYourTurn(true);
+                }
+                else {
+                    player.setIsYourTurn(false);
+                }  
+            }
+            else if(game.isMultiplayer) {
+                
+                if(!multiplayer.isPlayerOneTurn){
+                    console.log('IS CROSS', player.symbol, multiplayer.isPlayerOneTurn, game.winner, multiplayer.winner);
+                    multiplayer.setWinner(constants.CROSS);
+                }
+                else {
+                    console.log('IS CIRCLE', player.symbol, multiplayer.isPlayerOneTurn, game.winner, multiplayer.winner);
+                    multiplayer.setWinner(constants.CIRCLE);
+                }  
+            }
+        }
 
-            player.setIsYourTurn(true);
-        }
-        else {
-            player.setIsYourTurn(false);
-        }
+
     }, [game.isGameOver])
     return (
         game.isGameOver &&
         <StyledModal $isTie={game.isTie}>
-            {!game.isTie && <StyledLead> {game.winner === player.symbol ? "YOU WON" : "YOU LOST"} </StyledLead>}
+            {!game.isTie && <StyledLead> {game.isMultiplayer ? (game.winner === constants.CROSS && player.symbol === constants.CROSS ? 'PLAYER 1 WON' : game.winner === constants.CROSS && player.symbol === constants.CIRCLE ? 'PLAYER 2 WON' : game.winner === constants.CIRCLE && player.symbol === constants.CIRCLE ? 'PLAYER 1 WON' : 'PLAYER 2 WON') : game.winner === player.symbol ? "YOU WON" : "YOU LOST"} </StyledLead>}
             
             <StyledMessage $isTie={game.isTie}>
             {!game.isTie && (game.winner === constants.CROSS ? <Cross height={64} width={64} color={theme.colors.primaryCross}/> : <Circle height={64} width={64} color={theme.colors.primaryCircle}/>)}
@@ -82,15 +99,18 @@ const EndRoundModal = () => {
                     game.setIsTie(false);
                     game.resetWinningLineCoordinates();
                     game.resetBoard();
+                    game.setWinner('');
+                    player.setIsEnemyTurn(false);
                     
                     }}>QUIT</Button>
                 <Button color="yellow" onClick={()=>{
-                    console.log(game.isGameOver);
                     game.setIsTie(false);
                     game.resetBoard();
                     game.resetWinningLineCoordinates();
                     game.setGameOver(false);
                     game.setWinner('');
+                    multiplayer.setIsPlayerOneTurn(true);
+                    multiplayer.setIsGameOver(false);
                     if(player.symbol === constants.CROSS){
                         player.setIsYourTurn(true);
                         player.setIsEnemyTurn(false);

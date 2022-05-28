@@ -10,7 +10,6 @@ import constants from '../constants';
 export default function Switch() {
     const player = usePlayerStore((state) => state);
     const [isCross, setIsCross] = useState(true);
-    // console.log(player.symbol, constants.CROSS);
     return (
         <div className={`switch ${player.symbol === constants.CROSS ? 'switch--cross-active' : ''}`}>
             <button

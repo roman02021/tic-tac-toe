@@ -29,9 +29,7 @@ const enemyMovement = async () => {
     await sleep(300);
     
     if(!game.isGameOver){
-        console.log("ENEMY MOVEMENT", game.isGameOver);
         game.setTile(enemySymbol, enemyMove[0], enemyMove[1]);
-        console.log("ENEMY MOVEMENT", game.isGameOver);
     }
 }
 

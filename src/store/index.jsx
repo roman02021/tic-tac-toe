@@ -25,6 +25,7 @@ export const usePlayerStore = create((persist((set) => ({
     increaseWins: () => set((state) => ({wins: state.wins + 1})),
     increaseTies: () => set((state) => ({ties: state.ties + 1})),
     increaseLooses: () => set((state) => ({looses: state.looses + 1})),
+    resetScore: () => set(() => ({wins: 0, looses: 0, ties: 0}))
 }), {
     name: "player-storage"
     }
@@ -78,7 +79,13 @@ export const useMultiplayerStore = create((persist((set, get) => ({
     incrementPlayerTwoScore: () => set((state) => ({playerTwoScore: state.playerTwoScore + 1})),
     ties: 0,
     incrementTies: () => set((state) => ({ties: state.ties + 1})),
-    resetScore: set((state) => ({playerOneScore: 0, playerTwoScore: 0}))
+    resetScore: () => set(() => ({playerOneScore: 0, playerTwoScore: 0})),
+    isGameOver: false,
+    setIsGameOver: (isGameOver) => set({isGameOver}),
+    winner: null,
+    setWinner: (winner) => set({winner}),
+    isTie: null,
+    setIsTie: (isTie) => set({isTie}),
 }), {
     name: "multiplayer-storage"
     }
@@ -87,7 +94,7 @@ export const useMultiplayerStore = create((persist((set, get) => ({
 
 const checkEndCondition = (state) => {
     if(checkAllAxis(state)){
-        console.log('game ended');
+        // console.log('game ended');
     }
 
     else if(!state.board.some(row => row.includes(constants.EMPTY))){

@@ -14,7 +14,7 @@ export default function Game(props) {
     const multiplayer = useMultiplayerStore((state) => state);
 
     useEnemy();
-    
+
     useEffect(()=>{
         if(!game.isMultiplayer){
             if(game.isGameOver && game.isTie){
@@ -29,20 +29,39 @@ export default function Game(props) {
             }
         }
         else if(game.isMultiplayer){
-            if(game.isGameOver && game.isTie){
-                multiplayer.increaseTies();
-            }
             
-            else if(game.isGameOver && game.winner === constants.CROSS){
-                multiplayer.incrementPlayerOneScore();
+            if(game.isGameOver && game.isTie){
+                multiplayer.incrementTies();
             }
-            else if(game.isGameOver && game.winner === constants.CIRCLE){
-                multiplayer.incrementPlayerTwoScore();
+            else if(game.isGameOver && multiplayer.isPlayerOneTurn){
+                if(player.symbol === constants.CIRCLE){
+                    if(game.winner === constants.CIRCLE){
+                        multiplayer.incrementPlayerOneScore();
+                    }
+                    else {
+                        multiplayer.incrementPlayerTwoScore();
+                    }
+                }
+                else {
+                    multiplayer.incrementPlayerTwoScore();
+                }
+            }
+            else if(game.isGameOver && !multiplayer.isPlayerOneTurn){
+                if(player.symbol === constants.CROSS){
+                    if(game.winner === constants.CROSS){
+                        multiplayer.incrementPlayerOneScore();
+                    }
+                    else {
+                        multiplayer.incrementPlayerTwoScore();
+                    }
+                }
+                else {
+                    multiplayer.incrementPlayerTwoScore();
+                }
             }
         }
 
-    },[game.winner])
-
+    },[game.isGameOver])
 
     
     return (

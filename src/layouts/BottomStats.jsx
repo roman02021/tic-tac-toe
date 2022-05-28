@@ -20,7 +20,7 @@ const BottomStats = () => {
     const game = useGameStore((state) => state);
     const multiplayer = useMultiplayerStore((state) => state);
 
-    console.log(player.symbol, constants.CROSS, player.symbol === constants.CROSS);
+
     return <StyledBottomStats>
         <Score counter={game.isMultiplayer ? multiplayer.playerOneScore : player.wins} text={`${player.symbol === constants.CROSS ? 'X' : 'O'} (${game.isMultiplayer ? 'PLAYER 1' : 'YOU'})`} color={`${player.symbol === constants.CROSS ? 'blue' : 'yellow'}`}/>
         <Score counter={game.isMultiplayer ? multiplayer.ties : player.ties} text='TIES' color='silver'/>
