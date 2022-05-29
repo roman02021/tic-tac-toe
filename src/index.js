@@ -8,14 +8,14 @@ import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 
 ReactDOM.render(
     <React.StrictMode>
-        <HashRouter>
+        <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route path="/" element={<Menu />} />
                     <Route path="game" element={<Game />} />
                 </Route>
             </Routes>
-        </HashRouter>
+        </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );

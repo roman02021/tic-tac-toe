@@ -96,7 +96,7 @@ const EndRoundModal = () => {
     }, [game.isGameOver])
     return (
         game.isGameOver &&
-        <StyledModal $isTie={game.isTie} $isMobile>
+        <StyledModal $isTie={game.isTie} $isMobile={isMobile}>
             {!game.isTie && <StyledLead> {game.isMultiplayer ? (game.winner === constants.CROSS && player.symbol === constants.CROSS ? 'PLAYER 1 WINS!' : game.winner === constants.CROSS && player.symbol === constants.CIRCLE ? 'PLAYER 2 WINS!' : game.winner === constants.CIRCLE && player.symbol === constants.CIRCLE ? 'PLAYER 1 WINS!' : 'PLAYER 2 WINS!') : game.winner === player.symbol ? "YOU WON!" : "OH NO, YOU LOST…"} </StyledLead>}
             
             <StyledMessage $isTie={game.isTie}>
