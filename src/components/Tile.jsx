@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import theme from '../styles/theme';
 import Circle from '../components/icons/Circle';
+import useMediaQuery from '../hooks/useMediaQuery';
 import Cross from '../components/icons/Cross';
 import CircleOutline from '../components/icons/CircleOutline';
 import CrossOutline from '../components/icons/CrossOutline';
@@ -35,19 +36,23 @@ const StyledTile = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: ${(props) => props.$isMultiplayer ? 'pointer' : props.isChecked || !props.isYourTurn ?  'default' : 'pointer' }; 
+    cursor: ${(props) => props.$isMultiplayer ? (props.isChecked ? 'default' : 'pointer') : props.isChecked || !props.isYourTurn ?  'default' : 'pointer' }; 
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        height: 6rem;
+        width: 6rem;
+    }
 `
 
 
 export default function Tile(props) {
+    
     const [isChecked, setIsChecked] = useState(false);
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [isEnemy, setIsEnemy] = useState(false);
-
     const [isCross, setIsCross] = useState(true);
     
-    
+    const isMobile = useMediaQuery(theme.breakpoints.mobile);
     const game = useGameStore((state) => state);
     const player = usePlayerStore((state) => state);
     const multiplayer = useMultiplayerStore((state) => state);
@@ -148,26 +153,26 @@ export default function Tile(props) {
         {
         !game.isMultiplayer ?
         <>
-            {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
+            {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={theme.colors.primaryCross}/> : ''}
 
-            {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+            {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={theme.colors.primaryCircle}/> : ''}
 
             
-            {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : ''}
+            {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? <Cross height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : <Circle height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : ''}
 
-            {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : ''}
+            {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : <Cross height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : ''}
         </>
         :
         <>
-            {isHovering && multiplayer.isPlayerOneTurn && !isChecked ? <CrossOutline height={64} width={64} color={theme.colors.primaryCross}/> : ''}
+            {isHovering && multiplayer.isPlayerOneTurn && !isChecked ? <CrossOutline height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={theme.colors.primaryCross}/> : ''}
 
-            {isHovering && !multiplayer.isPlayerOneTurn && !isChecked ? <CircleOutline height={64} width={64} color={theme.colors.primaryCircle}/> : ''}
+            {isHovering && !multiplayer.isPlayerOneTurn && !isChecked ? <CircleOutline height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={theme.colors.primaryCircle}/> : ''}
 
             {isChecked && isCross ? 
-            <Cross height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : '' }
+            <Cross height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : '' }
 
             {isChecked && !isCross ? 
-            <Circle height={64} width={64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> 
+            <Circle height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> 
             : '' }
         </>
         }

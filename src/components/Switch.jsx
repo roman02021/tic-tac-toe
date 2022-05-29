@@ -2,7 +2,6 @@ import {React,  useState , useContext} from 'react';
 
 import Circle from '../components/icons/Circle';
 import Cross from '../components/icons/Cross';
-import '../styles/styles.scss';
 import theme from '../styles/theme';
 import {usePlayerStore} from '../store';
 import constants from '../constants';

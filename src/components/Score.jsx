@@ -11,16 +11,25 @@ const StyledScore = styled.div`
     align-items: center;
     flex-direction: column;
     background-color: ${(props) => handleColorType(props.color)};
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        height: 4rem;
+    }
 `
 
 const StyledCounter = styled.div`
     font-weight: bold;
     font-size: ${theme.fontSize.m};
     letter-spacing: ${theme.kerning.m};
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: ${theme.fontSize.s};
+    }
 `
 const StyledText = styled.div`
     font-size: ${theme.fontSize.body};
     letter-spacing: ${theme.kerning.body};
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: ${theme.fontSize.xss};
+    }
     
 `
 const handleColorType = (color) => {

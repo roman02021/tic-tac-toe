@@ -12,7 +12,8 @@ export default function Game(props) {
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
     const multiplayer = useMultiplayerStore((state) => state);
-
+    console.log(player.isYourTurn);
+    console.log(player.isEnemyTurn);
     useEnemy();
 
     useEffect(()=>{
@@ -34,30 +35,10 @@ export default function Game(props) {
                 multiplayer.incrementTies();
             }
             else if(game.isGameOver && multiplayer.isPlayerOneTurn){
-                if(player.symbol === constants.CIRCLE){
-                    if(game.winner === constants.CIRCLE){
-                        multiplayer.incrementPlayerOneScore();
-                    }
-                    else {
-                        multiplayer.incrementPlayerTwoScore();
-                    }
-                }
-                else {
-                    multiplayer.incrementPlayerTwoScore();
-                }
+                multiplayer.incrementPlayerTwoScore();
             }
             else if(game.isGameOver && !multiplayer.isPlayerOneTurn){
-                if(player.symbol === constants.CROSS){
-                    if(game.winner === constants.CROSS){
-                        multiplayer.incrementPlayerOneScore();
-                    }
-                    else {
-                        multiplayer.incrementPlayerTwoScore();
-                    }
-                }
-                else {
-                    multiplayer.incrementPlayerTwoScore();
-                }
+                multiplayer.incrementPlayerOneScore();
             }
         }
 

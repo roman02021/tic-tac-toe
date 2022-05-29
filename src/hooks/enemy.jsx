@@ -35,7 +35,7 @@ const useEnemy = () => {
     }
 
 
-    const enemyMovement = () => {
+    const enemyMovement = async () => {
         // console.log('ENEMY GAME OVER?:', checkEndCondition());
         let availablePositions = [];
 
@@ -47,8 +47,7 @@ const useEnemy = () => {
         }))
         const enemyMove = availablePositions[random(availablePositions.length)];
         
-        // sleep(300);
-        console.log(enemySymbol, enemyMove[0], enemyMove[1]);
+        await sleep(400);
         setTile(enemySymbol, enemyMove[0], enemyMove[1]);
         setIsYourTurn(true);
         

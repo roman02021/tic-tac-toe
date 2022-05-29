@@ -6,6 +6,7 @@ import Circle from '../components/icons/Circle';
 import Button from '../components/Button';
 import SlimTile from '../components/SlimTile';
 import theme from '../styles/theme';
+import useMediaQuery from '../hooks/useMediaQuery';
 import styled from 'styled-components';
 import GridItem from './GridItem';
 import {usePlayerStore, useGameStore, useMultiplayerStore} from '../store';
@@ -27,6 +28,10 @@ const StyledTopControls = styled.div`
 
 const TopControls = () => {
 
+
+    const isMobile = useMediaQuery(theme.breakpoints.mobile);
+    console.log(isMobile);
+
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
     const multiplayer = useMultiplayerStore((state) => state);
@@ -43,39 +48,39 @@ const TopControls = () => {
                         !game.isMultiplayer ?
                         (
                         (player.isYourTurn && player.symbol === constants.CROSS) || (!player.isYourTurn && player.symbol === constants.CIRCLE) ? 
-                        (!game.isGameOver ?<Circle
-                            width={20}
-                            height={20}
-                            color={theme.colors.primaryCircle}/> : <Cross
-                            width={20}
-                            height={20}
-                            color={theme.colors.secondary}/>) 
+                        (!game.isGameOver ?<Cross
+                            width={isMobile ? 16 : 20}
+                            height={isMobile ? 16 : 20}
+                            color={theme.colors.secondary}/> : <Circle
+                            width={isMobile ? 16 : 20}
+                            height={isMobile ? 16 : 20}
+                            color={theme.colors.primaryCircle}/>) 
                         : 
                         (!game.isGameOver ?
-                            <Cross
-                                width={20}
-                                height={20}
-                                color={theme.colors.primaryCross}/> : <Circle
-                                width={20}
-                                height={20}
+                            <Circle
+                                width={isMobile ? 16 : 20}
+                                height={isMobile ? 16 : 20}
+                                color={theme.colors.primaryCircle}/> : <Cross
+                                width={isMobile ? 16 : 20}
+                                height={isMobile ? 16 : 20}
                                 color={theme.colors.secondary}/>) 
                         )
                         :
                         multiplayer.isPlayerOneTurn ? (!game.isGameOver ?<Cross
-                        width={20}
-                        height={20}
-                        color={theme.colors.secondary}/> : <Circle
-                        width={20}
-                        height={20}
+                        width={isMobile ? 16 : 20}
+                        height={isMobile ? 16 : 20}
+                        color={theme.colors.primaryCross}/> : <Circle
+                        width={isMobile ? 16 : 20}
+                        height={isMobile ? 16 : 20}
                         color={theme.colors.primaryCircle}/>)  
                         :
                         (!game.isGameOver ?
                         <Circle
-                            width={20}
-                            height={20}
-                            color={theme.colors.secondary}/> : <Cross
-                            width={20}
-                            height={20}
+                            width={isMobile ? 16 : 20}
+                            height={isMobile ? 16 : 20}
+                            color={theme.colors.primaryCircle}/> : <Cross
+                            width={isMobile ? 16 : 20}
+                            height={isMobile ? 16 : 20}
                             color={theme.colors.primaryCross}/>)  
                     }
                 >
@@ -83,7 +88,7 @@ const TopControls = () => {
                 </SlimTile>
             </GridItem>
             <GridItem position='right'>
-                <Button icon={<Restart />} color='silver' square borderWidth='small' onClick={()=> setShowRestartModal(true)} />
+                <Button icon={<Restart width={isMobile ? 15 : 20} height={isMobile ? 15 : 20} />} color='silver' square borderWidth='small' onClick={()=> setShowRestartModal(true)} />
             </GridItem>
         </StyledTopControls>
     );

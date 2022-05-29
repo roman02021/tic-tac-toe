@@ -4,6 +4,8 @@ import Button from '../components/Button';
 import Cross from '../components/icons/Cross';
 import Circle from '../components/icons/Circle';
 import theme from '../styles/theme';
+import useMediaQuery from '../hooks/useMediaQuery';
+
 
 import {useGameStore, usePlayerStore, useMultiplayerStore} from '../store';
 import constants from '../constants';
@@ -17,15 +19,19 @@ const StyledModal = styled.div`
     transform: translateY(-50%);
     justify-content: center;
     align-items: center;
-    min-height: 16.625rem;
+    min-height: ${props => props.$isMobile ? '14rem' : '16.625rem'};
     width: 100vw;
     z-index: 5;
+
 `
 const StyledLead = styled.div`
     color: ${theme.colors.secondary};
     font-size: ${theme.fontSize.xs};
     letter-spacing: ${theme.kerning.xs};
     text-transform: uppercase;
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: ${theme.fontSize.body};
+    }
 `
 const StyledMessage = styled.div`
     color: ${theme.colors.primaryCross};
@@ -40,6 +46,9 @@ const StyledMessage = styled.div`
 const MainMessage = styled.div`
     margin-left: ${(props) => props.$isTie ? '' : '1.5rem'} ;
     font-weight: bold;
+    @media (max-width: ${theme.breakpoints.mobile}) {
+        font-size: ${theme.fontSize.m};
+    }
 `
 const ButtonContainer = styled.div`
     font-weight: bold;
@@ -56,6 +65,9 @@ const EndRoundModal = () => {
     const game = useGameStore((state) => state);
     const player = usePlayerStore((state) => state);
     const multiplayer = useMultiplayerStore((state) => state);
+
+    const isMobile = useMediaQuery(theme.breakpoints.mobile);
+
 
     useEffect(()=>{
         if(game.isGameOver){
@@ -84,17 +96,17 @@ const EndRoundModal = () => {
     }, [game.isGameOver])
     return (
         game.isGameOver &&
-        <StyledModal $isTie={game.isTie}>
-            {!game.isTie && <StyledLead> {game.isMultiplayer ? (game.winner === constants.CROSS && player.symbol === constants.CROSS ? 'PLAYER 1 WON' : game.winner === constants.CROSS && player.symbol === constants.CIRCLE ? 'PLAYER 2 WON' : game.winner === constants.CIRCLE && player.symbol === constants.CIRCLE ? 'PLAYER 1 WON' : 'PLAYER 2 WON') : game.winner === player.symbol ? "YOU WON" : "YOU LOST"} </StyledLead>}
+        <StyledModal $isTie={game.isTie} $isMobile>
+            {!game.isTie && <StyledLead> {game.isMultiplayer ? (game.winner === constants.CROSS && player.symbol === constants.CROSS ? 'PLAYER 1 WINS!' : game.winner === constants.CROSS && player.symbol === constants.CIRCLE ? 'PLAYER 2 WINS!' : game.winner === constants.CIRCLE && player.symbol === constants.CIRCLE ? 'PLAYER 1 WINS!' : 'PLAYER 2 WINS!') : game.winner === player.symbol ? "YOU WON!" : "OH NO, YOU LOST…"} </StyledLead>}
             
             <StyledMessage $isTie={game.isTie}>
-            {!game.isTie && (game.winner === constants.CROSS ? <Cross height={64} width={64} color={theme.colors.primaryCross}/> : <Circle height={64} width={64} color={theme.colors.primaryCircle}/>)}
+            {!game.isTie && (game.winner === constants.CROSS ? <Cross height={isMobile ? 32 : 64} width={isMobile ? 32 : 64} color={theme.colors.primaryCross}/> : <Circle height={isMobile ? 32 : 64} width={isMobile ? 32 : 64} color={theme.colors.primaryCircle}/>)}
                 
                 <MainMessage $isTie={game.isTie}>{!game.isTie ? "TAKES THE ROUND" : "ROUND TIED"}</MainMessage>
                 
             </StyledMessage>
             <ButtonContainer>
-                <Button color="silver" route="/"  onClick={()=>{
+                <Button $fullWidth={false} color="silver" route="/"  onClick={()=>{
                     game.setGameOver(false);
                     game.setIsTie(false);
                     game.resetWinningLineCoordinates();
@@ -103,7 +115,7 @@ const EndRoundModal = () => {
                     player.setIsEnemyTurn(false);
                     
                     }}>QUIT</Button>
-                <Button color="yellow" onClick={()=>{
+                <Button $fullWidth={false} color="yellow" onClick={()=>{
                     game.setIsTie(false);
                     game.resetBoard();
                     game.resetWinningLineCoordinates();
