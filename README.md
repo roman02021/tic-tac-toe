@@ -1,3 +1,3 @@
 # Challenge 2 (Tic-Tac Toe)
 
-https://www.frontendmentor.io/profile/roman02021
+Profile: https://www.frontendmentor.io/profile/roman02021
