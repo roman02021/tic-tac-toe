@@ -62,8 +62,9 @@ function Menu(props) {
             onClick={()=>{
                 game.resetBoard();
                 game.setWinner('');
-                game.setIsMultiplayer(true);
                 multiplayer.setIsPlayerOneTurn(true);
+                game.setIsMultiplayer(true);
+                
                 multiplayer.setIsGameOver(false);
                 multiplayer.resetScore();
             }}

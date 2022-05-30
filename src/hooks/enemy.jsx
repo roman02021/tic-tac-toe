@@ -47,7 +47,7 @@ const useEnemy = () => {
         }))
         const enemyMove = availablePositions[random(availablePositions.length)];
         
-        await sleep(400);
+        await sleep(300);
         setTile(enemySymbol, enemyMove[0], enemyMove[1]);
         setIsYourTurn(true);
         

@@ -59,7 +59,6 @@ const Btn = css`
 `
 const StyledBtnText = styled.span`
     letter-spacing: 1.25px;
-    ${(props) => console.log(props, 'asfasfas')};
 `
 const StyledLinkBtn = styled(Link)`
     ${Btn}

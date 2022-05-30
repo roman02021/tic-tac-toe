@@ -12,8 +12,7 @@ export default function Game(props) {
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
     const multiplayer = useMultiplayerStore((state) => state);
-    console.log(player.isYourTurn);
-    console.log(player.isEnemyTurn);
+
     useEnemy();
 
     useEffect(()=>{

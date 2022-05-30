@@ -75,6 +75,9 @@ export default function Tile(props) {
             player.setIsEnemyTurn(true);
             
         }
+        // else if(!isChecked && props.player.isEnemyTurn){
+        //     game.setTile(props.player.symbol, props.row, props.column);
+        // }
         else if(!isChecked && game.isMultiplayer){
             
             setIsChecked(true);
@@ -104,12 +107,12 @@ export default function Tile(props) {
                 setIsEnemy(false);
                 setIsHovering(false);
             }
-            else if(player.isYourTurn && game.board[props.row][props.column] === player.symbol){
+            else if(game.board[props.row][props.column] === player.symbol){
                 setIsChecked(true);
                 player.setIsEnemyTurn(true);
                 player.setIsYourTurn(false);
             }
-            else if(player.isEnemyTurn && game.board[props.row][props.column] === player.enemySymbol){
+            else if(game.board[props.row][props.column] === player.enemySymbol){
                 setIsEnemy(true);
                 setIsChecked(true);
                 player.setIsYourTurn(true);

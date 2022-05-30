@@ -30,7 +30,6 @@ const TopControls = () => {
 
 
     const isMobile = useMediaQuery(theme.breakpoints.mobile);
-    console.log(isMobile);
 
     const player = usePlayerStore((state) => state);
     const game = useGameStore((state) => state);
