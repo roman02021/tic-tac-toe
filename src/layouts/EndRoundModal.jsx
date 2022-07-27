@@ -5,6 +5,8 @@ import Cross from '../components/icons/Cross';
 import Circle from '../components/icons/Circle';
 import theme from '../styles/theme';
 import useMediaQuery from '../hooks/useMediaQuery';
+import VictorySound from '../components/sounds/VictorySound';
+import DefeatSound from '../components/sounds/DefeatSound';
 
 
 import {useGameStore, usePlayerStore, useMultiplayerStore} from '../store';
@@ -95,9 +97,16 @@ const EndRoundModal = () => {
 
     }, [game.isGameOver])
     return (
-        game.isGameOver &&
+        <>
+        {game.isGameOver &&
         <StyledModal $isTie={game.isTie} $isMobile={isMobile}>
-            {!game.isTie && <StyledLead> {game.isMultiplayer ? (game.winner === constants.CROSS && player.symbol === constants.CROSS ? 'PLAYER 1 WINS!' : game.winner === constants.CROSS && player.symbol === constants.CIRCLE ? 'PLAYER 2 WINS!' : game.winner === constants.CIRCLE && player.symbol === constants.CIRCLE ? 'PLAYER 1 WINS!' : 'PLAYER 2 WINS!') : game.winner === player.symbol ? "YOU WON!" : "OH NO, YOU LOST…"} </StyledLead>}
+            {!game.isTie && <StyledLead> 
+                {game.isMultiplayer ? (game.winner === constants.CROSS && player.symbol === constants.CROSS ? 
+                    'PLAYER 1 WINS!' : 
+                    game.winner === constants.CROSS && player.symbol === constants.CIRCLE ?
+                    'PLAYER 2 WINS!' : game.winner === constants.CIRCLE && player.symbol === constants.CIRCLE ?
+                    'PLAYER 1 WINS!' : 'PLAYER 2 WINS!') : game.winner === player.symbol ? "YOU WON!" : "OH NO, YOU LOST…"} 
+            </StyledLead>}
             
             <StyledMessage $isTie={game.isTie}>
             {!game.isTie && (game.winner === constants.CROSS ? <Cross height={isMobile ? 32 : 64} width={isMobile ? 32 : 64} color={theme.colors.primaryCross}/> : <Circle height={isMobile ? 32 : 64} width={isMobile ? 32 : 64} color={theme.colors.primaryCircle}/>)}
@@ -134,6 +143,10 @@ const EndRoundModal = () => {
                 }} >NEXT ROUND</Button>
             </ButtonContainer>
         </StyledModal>
+}       {!game.isMultiplayer && ((player.symbol === constants.CROSS && game.winner === constants.CROSS) || (player.symbol === constants.CIRCLE && game.winner === constants.CIRCLE)) && <VictorySound/>}
+
+        {!game.isMultiplayer && ((player.symbol === constants.CROSS && game.winner === constants.CIRCLE) || (player.symbol === constants.CROSS && game.winner === constants.CIRCLE)) && <DefeatSound/>}
+        </>
     
     
     );

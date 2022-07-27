@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css} from 'styled-components';
 import { Transition } from 'react-transition-group';
+import CheckSound from '../sounds/CheckSound';
 
 const transitionDuration = 500;
 
@@ -40,13 +41,16 @@ export default function Icon({icon, isOnBoard, isHovering, checked = false}) {
         entering: { opacity: 0 },
         entered: { opacity: 1 },
     };
-    console.log(checked);
+    
 
     return (
-
+    <>  
         <StyledIcon hovering={isHovering} checked={checked} duration isOnBoard className='icon' >
             {icon}
+            
         </StyledIcon> 
+        {checked && <CheckSound/>}
+    </>
     );
 }
 
