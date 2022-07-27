@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import theme from '../styles/theme';
 import Circle from '../components/icons/Circle';
+import Icon from './icons/Icon';
 import useMediaQuery from '../hooks/useMediaQuery';
 import Cross from '../components/icons/Cross';
 import CircleOutline from '../components/icons/CircleOutline';
@@ -41,6 +42,14 @@ const StyledTile = styled.div`
         height: 6rem;
         width: 6rem;
     }
+    transition: all 1s linear;
+    /* & svg {
+        background-color: red!important;
+        transition: all 2s linear;
+        transform: translateY(50px);
+        ${(props) => props.$isHovering && 'transform: translatey(0px)'};
+    } */
+    
 `
 
 
@@ -152,16 +161,58 @@ export default function Tile(props) {
         }
 
     }, [game.winningLineCoordinates])
-    return <StyledTile {...props} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick} isChecked={isChecked} isYourTurn={props.player.isYourTurn} $isHighlighted={isHighlighted} $isMultiplayer={game.isMultiplayer} $isCross={isCross} $playerSymbol={player.symbol} $enemySymbol={player.enemySymbol} $isEnemy={isEnemy}>
+    return <StyledTile 
+    {...props} 
+    onMouseEnter={handleMouseEnter} 
+    onMouseLeave={handleMouseLeave} 
+    onClick={handleClick} 
+    isChecked={isChecked} 
+    isYourTurn={props.player.isYourTurn} 
+    $isHighlighted={isHighlighted} 
+    $isHovering={isHovering} 
+    $isMultiplayer={game.isMultiplayer} 
+    $isCross={isCross} 
+    $playerSymbol={player.symbol} 
+    $enemySymbol={player.enemySymbol} 
+    $isEnemy={isEnemy}>
         {
         !game.isMultiplayer ?
         <>
-            {isHovering && props.player.symbol === constants.CROSS && !isChecked ?  <CrossOutline height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={theme.colors.primaryCross}/> : ''}
+            {props.player.symbol === constants.CROSS && !isChecked ?
+              <Icon 
+              isHovering={isHovering} 
+              isOnBoard icon={<CrossOutline 
+              height={isMobile ? 48 : 64} 
+              width={isMobile ? 48 : 64} 
+              color={theme.colors.primaryCross}/>}/> : ''}
 
-            {isHovering && props.player.symbol === constants.CIRCLE && !isChecked ?  <CircleOutline height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={theme.colors.primaryCircle}/> : ''}
+            {props.player.symbol === constants.CIRCLE && !isChecked ?  
+            <Icon 
+            isHovering={isHovering} 
+            isOnBoard 
+            icon={<CircleOutline 
+            height={isMobile ? 48 : 64} 
+            width={isMobile ? 48 : 64} 
+            color={theme.colors.primaryCircle}
+            />}
+            /> : ''}
 
             
-            {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? <Cross height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : <Circle height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : ''}
+            {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? 
+            <Icon 
+            checked={isChecked} 
+            icon={<Cross 
+            height={isMobile ? 48 : 64} 
+            width={isMobile ? 48 : 64} 
+            color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/>}
+            /> : 
+            <Icon 
+            checked={isChecked} 
+            icon={<Circle 
+            height={isMobile ? 48 : 64} 
+            width={isMobile ? 48 : 64} 
+            color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/>}
+            /> : ''}
 
             {isChecked && props.player.symbol === constants.CIRCLE ? !isEnemy ? <Circle height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCircle}/> : <Cross height={isMobile ? 48 : 64} width={isMobile ? 48 : 64} color={isHighlighted ? theme.colors.backgroundColor : theme.colors.primaryCross}/> : ''}
         </>
