@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styled, {css} from 'styled-components';
 import theme from '../styles/theme';
@@ -10,14 +10,18 @@ import '../styles/styles.css';
 
 export default function Button(props) {
 
+    const [isPressing, setIsPressing] = useState(false);
+
+    console.log('PRESS?', isPressing);
+
     const isMobile = useMediaQuery(theme.breakpoints.mobile);
     return (
         props.route ? 
-        <StyledLinkBtn $small={props.small} $isMobile={isMobile} to={props.route} $square={props.square}  $fullWidth={props.fullWidth} $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
+        <StyledLinkBtn onMouseDown={() => setIsPressing(true)} onMouseUp={() => setIsPressing(false)} $isPressing={isPressing} $small={props.small} $isMobile={isMobile} to={props.route} $square={props.square}  $fullWidth={props.fullWidth} $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
             <StyledBtnText >{props.children}</StyledBtnText>
             {props.icon && <span className="button__icon">{props.icon}</span>}
         </StyledLinkBtn> : 
-        <StyledBtn $small={props.small} $isMobile={isMobile} to={props.route || ""} $square={props.square} $fullWidth={props.fullWidth} $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
+        <StyledBtn onMouseDown={() => setIsPressing(true)} onMouseUp={() => setIsPressing(false)} $isPressing={isPressing} $small={props.small} $isMobile={isMobile} to={props.route || ""} $square={props.square} $fullWidth={props.fullWidth} $cross $vertical={props.vertical} $color={props.color} $borderWidth={props.borderWidth} onClick={props.onClick}>
             <StyledBtnText >{props.children}</StyledBtnText>
             {props.icon && <span className="button__icon">{props.icon}</span>}
         </StyledBtn>
@@ -28,7 +32,7 @@ const Btn = css`
     text-transform: uppercase;
     cursor: pointer;
     border-radius: ${theme.borders.borderRadius};
-    padding: 1rem;
+    padding: 1.25rem 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,8 +44,11 @@ const Btn = css`
     width: ${(props) => props.$fullWidth ? '100%' : undefined};
     font-size: ${(props) => props.$fullWidth ? (props.$isMobile ? theme.fontSize.xs : theme.fontSize.s) : theme.fontSize.xs};
     
+    transition: all .2s ease-in;
 
-    ${(props) => handleColorType(props.$color)};
+    ${(props) => handleColorType(props.$color, props.$isPressing)};
+
+    /* ${(props) => props.$isPressing ? css`box-shadow: inset 0 -2px 0 ${theme.colors.secondaryBorder};` : css`background-color: blue;`} */
     
     ${props => props.square ? `
         width: 3.25rem;
@@ -55,6 +62,12 @@ const Btn = css`
     &:not(:last-child) {
         ${(props) => props.$vertical ? 'margin-bottom: 1.25rem' : 'margin-right: 1rem'};
     }
+
+    
+    /* border-bottom-width: .25rem; */
+    
+
+
 
 `
 const StyledBtnText = styled.span`
@@ -78,29 +91,86 @@ const StyledBtn = styled.button`
             border-radius: ${(props) => props.$square ? theme.borders.borderRadiusSmall : theme.borders.borderRadiusSmall};
     }
 
+
 `
+// border-bottom: ${theme.borders.bottomWidthMedium} ${theme.colors.primaryCrossBorder} solid;
+// border-bottom: ${theme.borders.bottomWidthMedium} ${theme.colors.secondaryBorder} solid;
+// border-bottom: ${theme.borders.bottomWidthMedium} ${theme.colors.primaryCircleBorder} solid;
 
 const handleColorType = (color) => {
     switch (color) {
         case 'blue':
-            return `background-color: ${theme.colors.primaryCross};
-                    border-bottom: ${theme.borders.bottomWidthMedium} ${theme.colors.primaryCrossBorder} solid;
-                    &:hover {
-                        background-color: ${theme.colors.primaryCrossHover};
-                    }`;
+            return  css`background-color: ${theme.colors.primaryCross};
+                        box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder};
+                        @keyframes buttonHoverBlue {
+                            0% {box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(0px);}
+                            50% {box-shadow: inset 0 -4px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(4px);}
+                            100% {box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(0px);}
+                        }
+                        @keyframes buttonPressBlue {
+                            0% {box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(0px);}
+                            100% {box-shadow: inset 0 -2px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(2px);}
+                        }
+                        &:hover {
+                            background-color: ${theme.colors.primaryCrossHover};
+                            animation: buttonHoverBlue 2s infinite;
+                        }
+                        &:active {
+                            background-color: ${theme.colors.primaryCrossHover};
+                            animation: buttonPressBlue .2s forwards;
+                        }
+                        `;
         case 'silver':
-            return `background-color: ${theme.colors.secondary};
-                    border-bottom: ${theme.borders.bottomWidthMedium} ${theme.colors.secondaryBorder} solid;
-                    &:hover {
-                        background-color: ${theme.colors.secondaryHover};
-                    }
+            return  css`background-color: ${theme.colors.secondary};
+                        box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder};
+                        @keyframes buttonHoverSilver {
+                            0% {box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(0px);}
+                            50% {box-shadow: inset 0 -6px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(2px);}
+                            100% {box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(0px);}
+                        }
+                        @keyframes buttonPressSilver {
+                            0% {box-shadow: inset 0 -8px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(0px);}
+                            100% {box-shadow: inset 0 -2px 0 ${theme.colors.primaryCrossBorder}; transform: translateY(2px);}
+                        }
+                        &:hover {
+                            background-color: ${theme.colors.primaryCrossHover};
+                            animation: buttonHoverSilver 2s infinite;
+                        }
+                        &:active {
+                            background-color: ${theme.colors.primaryCrossHover};
+                            animation: buttonPressSilver .2s forwards;
+                        }
                     `;
         default:
-            return `background-color: ${theme.colors.primaryCircle};
-                    border-bottom: ${theme.borders.bottomWidthMedium} ${theme.colors.primaryCircleBorder} solid;
-                    &:hover {
-                        background-color: ${theme.colors.primaryCircleHover};
-                    }
+            return  css`background-color: ${theme.colors.primaryCircle};
+                        box-shadow: inset 0 -8px 0 ${theme.colors.primaryCircleBorder};
+                        @keyframes buttonHoverYellow {
+                            0% {
+                                box-shadow: inset 0 -8px 0 ${theme.colors.primaryCircleBorder}; 
+                                transform: translateY(0px);
+                            }
+                            50% {
+                                box-shadow: inset 0 -4px 0 ${theme.colors.primaryCircleBorder}; 
+                                transform: translateY(4px);
+                            }
+                            100% {
+                                box-shadow: inset 0 -8px 0 ${theme.colors.primaryCircleBorder}; 
+                                transform: translateY(0px);
+                            }
+                        }
+                        @keyframes buttonPressYellow {
+                            0% {box-shadow: inset 0 -8px 0 ${theme.colors.primaryCircleBorder}; transform: translateY(0px);}
+                            100% {box-shadow: inset 0 -4px 0 ${theme.colors.primaryCircleBorder}; transform: translateY(2px);}
+                        }
+                        &:hover {
+                            background-color: ${theme.colors.primaryCircleHover};
+                            animation: buttonHoverYellow 2s infinite;
+                        }
+                        &:active {
+                            background-color: ${theme.colors.primaryCircleHover};
+                            animation: buttonPressYellow .2s forwards;
+                        }
                     `;
+    
     }
 };

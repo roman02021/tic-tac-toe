@@ -16,6 +16,7 @@ const theme = {
     borders: {
         borderRadius: '15px',
         borderRadiusSmall: '8px',
+        borderRadiusMedium: '10px',
         bottomWidthMedium: '0.5rem',
         bottomWidthSmall: '0.25rem',
     },

@@ -42,7 +42,7 @@ const StyledTile = styled.div`
         height: 6rem;
         width: 6rem;
     }
-    transition: all 1s linear;
+    transition: all .3s ease-out;
     /* & svg {
         background-color: red!important;
         transition: all 2s linear;
@@ -200,7 +200,8 @@ export default function Tile(props) {
             
             {isChecked && props.player.symbol === constants.CROSS ? !isEnemy ? 
             <Icon 
-            checked={isChecked} 
+            checked={isChecked}
+            isOnBoard 
             icon={<Cross 
             height={isMobile ? 48 : 64} 
             width={isMobile ? 48 : 64} 
@@ -208,6 +209,7 @@ export default function Tile(props) {
             /> : 
             <Icon 
             checked={isChecked} 
+            isOnBoard 
             icon={<Circle 
             height={isMobile ? 48 : 64} 
             width={isMobile ? 48 : 64} 

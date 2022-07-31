@@ -7,8 +7,14 @@ const transitionDuration = 500;
 
 const StyledIcon = styled.div`
     transform: scale(1.2);
-    
-    opacity: 0;
+    display: flex;
+    z-index: 10;
+    transition: all .3s linear;
+    ${({isOnBoard}) => 
+        isOnBoard &&
+        css`opacity: 0;
+        animation: check .4s;`
+    }
     ${({hovering}) => 
         hovering && 
         css`transform: scale(1);
@@ -20,7 +26,7 @@ const StyledIcon = styled.div`
         opacity: 1;
     `}
     transition: all .2s ease-in;
-    animation: check .4s;
+    
     @keyframes check {
         10% {
             transform: scale(1.5);
@@ -35,19 +41,19 @@ const StyledIcon = styled.div`
 `
 
 
-export default function Icon({icon, isOnBoard, isHovering, checked = false}) {
+export default function Icon({icon, isOnBoard = false, isHovering = false, checked = false}) {
 
     const transitionStyles = {
         entering: { opacity: 0 },
         entered: { opacity: 1 },
     };
+    console.log(isOnBoard);
     
 
     return (
     <>  
-        <StyledIcon hovering={isHovering} checked={checked} duration isOnBoard className='icon' >
+        <StyledIcon hovering={isHovering} checked={checked} duration isOnBoard={isOnBoard} className='icon' >
             {icon}
-            
         </StyledIcon> 
         {checked && <CheckSound/>}
     </>

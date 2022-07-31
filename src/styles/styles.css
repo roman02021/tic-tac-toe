@@ -30,7 +30,7 @@
   color: rgba(168, 191, 201, 0.5);
 }
 
-.switch {
+/* .switch {
   background-color: #1a2a33;
   border-radius: 15px;
   padding: 0.5rem;
@@ -55,14 +55,14 @@
   background-color: transparent;
   border: none;
   padding: 0.75rem;
-}
-.switch__cross-container:hover {
+} */
+/* .switch__cross-container:hover {
   background-color: rgba(168, 191, 201, 0.05);
-}
-.switch__cross path {
+} */
+/* .switch__cross path {
   fill: #a8bfc9;
-}
-.switch--cross-active .switch__cross-container {
+} */
+/* .switch--cross-active .switch__cross-container {
   background-color: #a8bfc9;
 }
 .switch--cross-active .switch__cross path {
@@ -76,7 +76,7 @@
 }
 .switch--cross-active .switch__circle path {
   fill: #a8bfc9;
-}
+} */
 
 .board {
   display: grid;

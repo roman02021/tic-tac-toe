@@ -19,7 +19,7 @@ const StyledModal = styled.div`
     align-items: center;
     min-height: 16.625rem;
     width: 100vw;
-    z-index: 5;
+    z-index: 20;
 `
 const StyledLead = styled.div`
     color: ${theme.colors.secondary};
