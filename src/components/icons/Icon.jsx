@@ -31,11 +31,11 @@ const StyledIcon = styled.div`
     transition: all .2s ease-in;
 
   @keyframes check {
-    10% {
-      transform: scale(1.5);
+    0% {
+      transform: scale(1.2);
     }
-    60% {
-      transform: scale(0.5);
+    50% {
+      transform: scale(0.8);
     }
     100% {
       transform: scale(1);
